@@ -1,0 +1,190 @@
+Transform ImpactLabs from a simple wizard into a complete AI-powered Impact Report Generator.
+
+Core Concept:
+Users should not only fill out a form. They should generate a professional, investor-ready impact report automatically based on their answers.
+
+NEW FLOW
+
+Step 0: Organization Profile
+
+Before the SDG selection screen, add a new onboarding step:
+
+Fields:
+
+* Organization Name
+* Organization Type (Startup, NGO, Social Enterprise, Company, Student Project, Government Initiative)
+* Industry
+* Website (optional)
+* Logo Upload (optional)
+* Mission Statement
+* Country
+* Reporting Period
+
+This information should personalize the entire report.
+
+Example:
+Instead of generic headings like "Impact Report", generate:
+
+"ImpactLabs Social Impact Report 2026"
+"Prepared for: [Organization Name]"
+
+Display organization logo on cover page if uploaded.
+
+STEP 1
+Choose SDGs
+
+Allow selection of 1–5 SDGs.
+
+STEP 2
+Stakeholders
+
+Primary beneficiary
+Secondary stakeholders
+
+STEP 3
+Theory of Change
+
+Activities
+Outputs
+Outcomes
+Impact
+
+Auto-generate recommendations using AI.
+
+STEP 4
+Measurement Framework
+
+For every output and outcome:
+
+* Indicator
+* Baseline
+* Target
+* Measurement Frequency
+
+Generate suggested KPIs automatically.
+
+STEP 5
+Generate Report
+
+After clicking Generate Report:
+
+Create a professional multi-page report with sections:
+
+1. Cover Page
+
+* Organization logo
+* Organization name
+* Report title
+* Reporting period
+
+2. Executive Summary
+
+* AI-generated overview
+* Mission
+* Main impact areas
+* SDGs selected
+
+3. SDG Alignment
+
+* Selected SDGs
+* Why they matter
+* Expected contribution
+
+4. Stakeholder Analysis
+
+* Primary beneficiary
+* Secondary stakeholders
+* Stakeholder map visualization
+
+5. Theory of Change
+
+* Activities
+* Outputs
+* Outcomes
+* Impact
+* Flowchart visualization
+
+6. Impact Strategy
+
+* Long-term vision
+* Strategic objectives
+* Key initiatives
+
+7. Measurement Framework
+
+* KPI tables
+* Targets
+* Reporting frequency
+
+8. Progress Dashboard
+   Generate visual charts:
+
+* Beneficiaries reached
+* Partnerships formed
+* Projects launched
+* Impact growth
+
+9. Risk & Assumptions
+
+* Key risks
+* Dependencies
+* Mitigation strategies
+
+10. Future Commitments
+
+* Next year goals
+* Expansion plans
+* SDG roadmap
+
+11. Appendix
+
+* All indicators
+* Definitions
+* Methodology
+
+DESIGN REQUIREMENTS
+
+Use a modern impact-investor style.
+
+Inspired by:
+
+* UN SDG reports
+* BCG impact reports
+* McKinsey sustainability reports
+* World Bank publications
+
+Design:
+
+* Dark navy background
+* Glassmorphism cards
+* SDG colors
+* Modern typography
+* Professional charts
+* Executive report appearance
+
+EXPORTS
+
+Add:
+
+* Export PDF
+* Export PPTX
+* Export DOCX
+
+AI FEATURES
+
+Add a button:
+
+"Generate Entire Report with AI"
+
+When clicked:
+
+Use all user inputs to generate:
+
+* Executive summary
+* Stakeholder descriptions
+* Theory of change narrative
+* KPI recommendations
+* Impact narrative
+* Future commitments
+
+The final output should feel like a report prepared by a sustainability consultant, not a form export.

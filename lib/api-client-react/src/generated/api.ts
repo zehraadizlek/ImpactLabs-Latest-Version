@@ -21,7 +21,11 @@ import type {
 
 import type {
   ErrorResponse,
+  GeneratedReport,
   HealthStatus,
+  KpiInput,
+  KpiResult,
+  ReportInput,
   TheoryInput,
   TheoryResult
 } from './api.schemas';
@@ -187,5 +191,151 @@ export const useGenerateTheoryOfChange = <TError = ErrorType<ErrorResponse>,
         TContext
       > => {
       return useMutation(getGenerateTheoryOfChangeMutationOptions(options));
+    }
+
+export const getSuggestKpisUrl = () => {
+
+
+
+
+  return `/api/ai/suggest-kpis`
+}
+
+/**
+ * Suggests measurement indicators, baselines, targets, and frequency for each provided output and outcome.
+
+ * @summary Suggest KPIs
+ */
+export const suggestKpis = async (kpiInput: KpiInput, options?: RequestInit): Promise<KpiResult> => {
+
+  return customFetch<KpiResult>(getSuggestKpisUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      kpiInput,)
+  }
+);}
+
+
+
+
+export const getSuggestKpisMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof suggestKpis>>, TError,{data: BodyType<KpiInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof suggestKpis>>, TError,{data: BodyType<KpiInput>}, TContext> => {
+
+const mutationKey = ['suggestKpis'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof suggestKpis>>, {data: BodyType<KpiInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  suggestKpis(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SuggestKpisMutationResult = NonNullable<Awaited<ReturnType<typeof suggestKpis>>>
+    export type SuggestKpisMutationBody = BodyType<KpiInput>
+    export type SuggestKpisMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Suggest KPIs
+ */
+export const useSuggestKpis = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof suggestKpis>>, TError,{data: BodyType<KpiInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof suggestKpis>>,
+        TError,
+        {data: BodyType<KpiInput>},
+        TContext
+      > => {
+      return useMutation(getSuggestKpisMutationOptions(options));
+    }
+
+export const getGenerateReportUrl = () => {
+
+
+
+
+  return `/api/ai/generate-report`
+}
+
+/**
+ * Uses AI to generate every narrative section of a professional, investor-ready impact report from the organization's full profile and wizard inputs.
+
+ * @summary Generate the full impact report
+ */
+export const generateReport = async (reportInput: ReportInput, options?: RequestInit): Promise<GeneratedReport> => {
+
+  return customFetch<GeneratedReport>(getGenerateReportUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      reportInput,)
+  }
+);}
+
+
+
+
+export const getGenerateReportMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateReport>>, TError,{data: BodyType<ReportInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateReport>>, TError,{data: BodyType<ReportInput>}, TContext> => {
+
+const mutationKey = ['generateReport'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateReport>>, {data: BodyType<ReportInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateReport(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateReportMutationResult = NonNullable<Awaited<ReturnType<typeof generateReport>>>
+    export type GenerateReportMutationBody = BodyType<ReportInput>
+    export type GenerateReportMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Generate the full impact report
+ */
+export const useGenerateReport = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateReport>>, TError,{data: BodyType<ReportInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateReport>>,
+        TError,
+        {data: BodyType<ReportInput>},
+        TContext
+      > => {
+      return useMutation(getGenerateReportMutationOptions(options));
     }
 

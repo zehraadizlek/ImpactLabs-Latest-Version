@@ -7,6 +7,17 @@
  */
 
 export * from './errorResponse';
+export * from './futureCommitments';
+export * from './generatedReport';
 export * from './healthStatus';
+export * from './impactGrowthPoint';
+export * from './impactStrategy';
+export * from './kpiInput';
+export * from './kpiResult';
+export * from './kpiSuggestion';
+export * from './progressMetrics';
+export * from './reportInput';
+export * from './riskAnalysis';
+export * from './sdgAlignment';
 export * from './theoryInput';
 export * from './theoryResult';

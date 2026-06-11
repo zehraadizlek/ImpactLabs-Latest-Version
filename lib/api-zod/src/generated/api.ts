@@ -23,15 +23,95 @@ export const HealthCheckResponse = zod.object({
  * @summary Generate Theory of Change
  */
 export const GenerateTheoryOfChangeBody = zod.object({
-  "sdgs": zod.array(zod.string()).describe('List of SDG names the organization focuses on'),
-  "beneficiary": zod.string().describe('Primary beneficiary group'),
-  "activities": zod.array(zod.string()).describe('What the organization does'),
-  "outputs": zod.array(zod.string()).describe('Direct results of the activities')
+  "sdgs": zod.array(zod.string()),
+  "beneficiary": zod.string(),
+  "activities": zod.array(zod.string()),
+  "outputs": zod.array(zod.string())
 })
 
 export const GenerateTheoryOfChangeResponse = zod.object({
-  "outcomes": zod.array(zod.string()).describe('Medium-term changes in beneficiaries'),
-  "impact": zod.array(zod.string()).describe('Long-term systemic change statements')
+  "outcomes": zod.array(zod.string()),
+  "impact": zod.array(zod.string())
+})
+
+
+/**
+ * Suggests measurement indicators, baselines, targets, and frequency for each provided output and outcome.
+
+ * @summary Suggest KPIs
+ */
+export const SuggestKpisBody = zod.object({
+  "sector": zod.string().optional(),
+  "items": zod.array(zod.string()).describe('The outputs and outcomes to suggest KPIs for')
+})
+
+export const SuggestKpisResponse = zod.object({
+  "kpis": zod.array(zod.object({
+  "item": zod.string(),
+  "indicator": zod.string(),
+  "baseline": zod.string(),
+  "target": zod.string(),
+  "frequency": zod.string()
+}))
+})
+
+
+/**
+ * Uses AI to generate every narrative section of a professional, investor-ready impact report from the organization's full profile and wizard inputs.
+
+ * @summary Generate the full impact report
+ */
+export const GenerateReportBody = zod.object({
+  "orgName": zod.string(),
+  "orgType": zod.string().optional(),
+  "industry": zod.string().optional(),
+  "mission": zod.string().optional(),
+  "country": zod.string().optional(),
+  "reportingPeriod": zod.string().optional(),
+  "sdgs": zod.array(zod.string()).optional(),
+  "sdgChanges": zod.array(zod.string()).optional(),
+  "primaryBeneficiary": zod.string().optional(),
+  "secondaryStakeholders": zod.array(zod.string()).optional(),
+  "activities": zod.array(zod.string()).optional(),
+  "outputs": zod.array(zod.string()).optional(),
+  "outcomes": zod.array(zod.string()).optional(),
+  "impact": zod.array(zod.string()).optional()
+})
+
+export const GenerateReportResponse = zod.object({
+  "executiveSummary": zod.string(),
+  "sdgAlignment": zod.array(zod.object({
+  "sdg": zod.number(),
+  "whyItMatters": zod.string(),
+  "expectedContribution": zod.string()
+})),
+  "stakeholderAnalysis": zod.string(),
+  "theoryOfChangeNarrative": zod.string(),
+  "impactStrategy": zod.object({
+  "longTermVision": zod.string(),
+  "strategicObjectives": zod.array(zod.string()),
+  "keyInitiatives": zod.array(zod.string())
+}),
+  "measurementFramework": zod.string(),
+  "risks": zod.object({
+  "keyRisks": zod.array(zod.string()),
+  "dependencies": zod.array(zod.string()),
+  "mitigation": zod.array(zod.string())
+}),
+  "futureCommitments": zod.object({
+  "nextYearGoals": zod.array(zod.string()),
+  "expansionPlans": zod.array(zod.string()),
+  "sdgRoadmap": zod.array(zod.string())
+}),
+  "progressMetrics": zod.object({
+  "beneficiariesReached": zod.number(),
+  "partnershipsFormed": zod.number(),
+  "projectsLaunched": zod.number(),
+  "impactGrowth": zod.array(zod.object({
+  "period": zod.string(),
+  "value": zod.number()
+}))
+})
 })
 
 

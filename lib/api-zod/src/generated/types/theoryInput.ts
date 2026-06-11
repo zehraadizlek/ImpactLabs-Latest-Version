@@ -7,12 +7,8 @@
  */
 
 export interface TheoryInput {
-  /** List of SDG names the organization focuses on */
   sdgs: string[];
-  /** Primary beneficiary group */
   beneficiary: string;
-  /** What the organization does */
   activities: string[];
-  /** Direct results of the activities */
   outputs: string[];
 }

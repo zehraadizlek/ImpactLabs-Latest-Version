@@ -59,6 +59,73 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /ai/suggest-kpis:
+    post:
+      operationId: suggestKpis
+      tags: [ai]
+      summary: Suggest KPIs
+      description: >
+        Suggests measurement indicators, baselines, targets, and frequency for
+        each provided output and outcome.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KpiInput"
+      responses:
+        "200":
+          description: Suggested KPIs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KpiResult"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: AI generation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /ai/generate-report:
+    post:
+      operationId: generateReport
+      tags: [ai]
+      summary: Generate the full impact report
+      description: >
+        Uses AI to generate every narrative section of a professional,
+        investor-ready impact report from the organization's full profile and
+        wizard inputs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportInput"
+      responses:
+        "200":
+          description: The generated report content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeneratedReport"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: AI generation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -80,20 +147,16 @@ components:
           type: array
           items:
             type: string
-          description: List of SDG names the organization focuses on
         beneficiary:
           type: string
-          description: Primary beneficiary group
         activities:
           type: array
           items:
             type: string
-          description: What the organization does
         outputs:
           type: array
           items:
             type: string
-          description: Direct results of the activities
     TheoryResult:
       type: object
       required:
@@ -104,12 +167,226 @@ components:
           type: array
           items:
             type: string
-          description: Medium-term changes in beneficiaries
         impact:
           type: array
           items:
             type: string
-          description: Long-term systemic change statements
+    KpiInput:
+      type: object
+      required:
+        - items
+      properties:
+        sector:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+          description: The outputs and outcomes to suggest KPIs for
+    KpiSuggestion:
+      type: object
+      required:
+        - item
+        - indicator
+        - baseline
+        - target
+        - frequency
+      properties:
+        item:
+          type: string
+        indicator:
+          type: string
+        baseline:
+          type: string
+        target:
+          type: string
+        frequency:
+          type: string
+    KpiResult:
+      type: object
+      required:
+        - kpis
+      properties:
+        kpis:
+          type: array
+          items:
+            $ref: "#/components/schemas/KpiSuggestion"
+    ReportInput:
+      type: object
+      required:
+        - orgName
+      properties:
+        orgName:
+          type: string
+        orgType:
+          type: string
+        industry:
+          type: string
+        mission:
+          type: string
+        country:
+          type: string
+        reportingPeriod:
+          type: string
+        sdgs:
+          type: array
+          items:
+            type: string
+        sdgChanges:
+          type: array
+          items:
+            type: string
+        primaryBeneficiary:
+          type: string
+        secondaryStakeholders:
+          type: array
+          items:
+            type: string
+        activities:
+          type: array
+          items:
+            type: string
+        outputs:
+          type: array
+          items:
+            type: string
+        outcomes:
+          type: array
+          items:
+            type: string
+        impact:
+          type: array
+          items:
+            type: string
+    SdgAlignment:
+      type: object
+      required:
+        - sdg
+        - whyItMatters
+        - expectedContribution
+      properties:
+        sdg:
+          type: integer
+        whyItMatters:
+          type: string
+        expectedContribution:
+          type: string
+    ImpactStrategy:
+      type: object
+      required:
+        - longTermVision
+        - strategicObjectives
+        - keyInitiatives
+      properties:
+        longTermVision:
+          type: string
+        strategicObjectives:
+          type: array
+          items:
+            type: string
+        keyInitiatives:
+          type: array
+          items:
+            type: string
+    RiskAnalysis:
+      type: object
+      required:
+        - keyRisks
+        - dependencies
+        - mitigation
+      properties:
+        keyRisks:
+          type: array
+          items:
+            type: string
+        dependencies:
+          type: array
+          items:
+            type: string
+        mitigation:
+          type: array
+          items:
+            type: string
+    FutureCommitments:
+      type: object
+      required:
+        - nextYearGoals
+        - expansionPlans
+        - sdgRoadmap
+      properties:
+        nextYearGoals:
+          type: array
+          items:
+            type: string
+        expansionPlans:
+          type: array
+          items:
+            type: string
+        sdgRoadmap:
+          type: array
+          items:
+            type: string
+    ImpactGrowthPoint:
+      type: object
+      required:
+        - period
+        - value
+      properties:
+        period:
+          type: string
+        value:
+          type: number
+    ProgressMetrics:
+      type: object
+      required:
+        - beneficiariesReached
+        - partnershipsFormed
+        - projectsLaunched
+        - impactGrowth
+      properties:
+        beneficiariesReached:
+          type: number
+        partnershipsFormed:
+          type: number
+        projectsLaunched:
+          type: number
+        impactGrowth:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImpactGrowthPoint"
+    GeneratedReport:
+      type: object
+      required:
+        - executiveSummary
+        - sdgAlignment
+        - stakeholderAnalysis
+        - theoryOfChangeNarrative
+        - impactStrategy
+        - measurementFramework
+        - risks
+        - futureCommitments
+        - progressMetrics
+      properties:
+        executiveSummary:
+          type: string
+        sdgAlignment:
+          type: array
+          items:
+            $ref: "#/components/schemas/SdgAlignment"
+        stakeholderAnalysis:
+          type: string
+        theoryOfChangeNarrative:
+          type: string
+        impactStrategy:
+          $ref: "#/components/schemas/ImpactStrategy"
+        measurementFramework:
+          type: string
+        risks:
+          $ref: "#/components/schemas/RiskAnalysis"
+        futureCommitments:
+          $ref: "#/components/schemas/FutureCommitments"
+        progressMetrics:
+          $ref: "#/components/schemas/ProgressMetrics"
     ErrorResponse:
       type: object
       required:

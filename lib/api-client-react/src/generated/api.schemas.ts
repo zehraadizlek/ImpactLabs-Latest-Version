@@ -10,21 +10,98 @@ export interface HealthStatus {
 }
 
 export interface TheoryInput {
-  /** List of SDG names the organization focuses on */
   sdgs: string[];
-  /** Primary beneficiary group */
   beneficiary: string;
-  /** What the organization does */
   activities: string[];
-  /** Direct results of the activities */
   outputs: string[];
 }
 
 export interface TheoryResult {
-  /** Medium-term changes in beneficiaries */
   outcomes: string[];
-  /** Long-term systemic change statements */
   impact: string[];
+}
+
+export interface KpiInput {
+  sector?: string;
+  /** The outputs and outcomes to suggest KPIs for */
+  items: string[];
+}
+
+export interface KpiSuggestion {
+  item: string;
+  indicator: string;
+  baseline: string;
+  target: string;
+  frequency: string;
+}
+
+export interface KpiResult {
+  kpis: KpiSuggestion[];
+}
+
+export interface ReportInput {
+  orgName: string;
+  orgType?: string;
+  industry?: string;
+  mission?: string;
+  country?: string;
+  reportingPeriod?: string;
+  sdgs?: string[];
+  sdgChanges?: string[];
+  primaryBeneficiary?: string;
+  secondaryStakeholders?: string[];
+  activities?: string[];
+  outputs?: string[];
+  outcomes?: string[];
+  impact?: string[];
+}
+
+export interface SdgAlignment {
+  sdg: number;
+  whyItMatters: string;
+  expectedContribution: string;
+}
+
+export interface ImpactStrategy {
+  longTermVision: string;
+  strategicObjectives: string[];
+  keyInitiatives: string[];
+}
+
+export interface RiskAnalysis {
+  keyRisks: string[];
+  dependencies: string[];
+  mitigation: string[];
+}
+
+export interface FutureCommitments {
+  nextYearGoals: string[];
+  expansionPlans: string[];
+  sdgRoadmap: string[];
+}
+
+export interface ImpactGrowthPoint {
+  period: string;
+  value: number;
+}
+
+export interface ProgressMetrics {
+  beneficiariesReached: number;
+  partnershipsFormed: number;
+  projectsLaunched: number;
+  impactGrowth: ImpactGrowthPoint[];
+}
+
+export interface GeneratedReport {
+  executiveSummary: string;
+  sdgAlignment: SdgAlignment[];
+  stakeholderAnalysis: string;
+  theoryOfChangeNarrative: string;
+  impactStrategy: ImpactStrategy;
+  measurementFramework: string;
+  risks: RiskAnalysis;
+  futureCommitments: FutureCommitments;
+  progressMetrics: ProgressMetrics;
 }
 
 export interface ErrorResponse {

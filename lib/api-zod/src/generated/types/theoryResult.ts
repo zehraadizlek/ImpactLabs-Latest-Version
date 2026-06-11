@@ -7,8 +7,6 @@
  */
 
 export interface TheoryResult {
-  /** Medium-term changes in beneficiaries */
   outcomes: string[];
-  /** Long-term systemic change statements */
   impact: string[];
 }

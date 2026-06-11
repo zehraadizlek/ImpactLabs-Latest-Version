@@ -1,7 +1,5 @@
 import React from "react";
 import { AppState } from "@/lib/state";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,75 +28,77 @@ export default function Step2Stakeholders({ state, updateState }: { state: AppSt
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
       <div>
-        <h2 className="text-3xl font-semibold text-primary mb-2">Stakeholders</h2>
-        <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-primary-foreground/90">
-          <p className="font-medium text-primary mb-1">Who is affected?</p>
-          <p className="text-sm text-foreground/80">
+        <h2 className="text-3xl font-bold tracking-tight mb-2">Stakeholders</h2>
+        <div className="glass-card p-4 rounded-lg">
+          <p className="font-semibold text-primary mb-1 text-sm">Who is affected?</p>
+          <p className="text-sm text-muted-foreground italic">
             Your primary beneficiary is NOT necessarily your customer. They are the group whose lives you are trying to improve.
           </p>
         </div>
       </div>
 
-      <Card className="border-2 border-primary/20 bg-primary/5">
-        <CardHeader>
-          <CardTitle className="text-xl text-primary">Primary Beneficiary</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="glass-card border-primary/40 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+        <div className="p-4 border-b border-border/30 bg-primary/5">
+          <h3 className="text-xl font-semibold text-primary">Primary Beneficiary</h3>
+        </div>
+        <div className="p-5 space-y-5">
           <div className="space-y-2">
-            <Label>Group Name</Label>
+            <Label className="text-muted-foreground">Group Name</Label>
             <Input 
               placeholder="e.g. Smallholder farmers in Kenya" 
               value={state.primaryBeneficiary.name}
               onChange={e => updateState({ primaryBeneficiary: { ...state.primaryBeneficiary, name: e.target.value }})}
+              className="glass-input"
             />
           </div>
           <div className="space-y-2">
-            <Label>How are they affected?</Label>
+            <Label className="text-muted-foreground">How are they affected?</Label>
             <Textarea 
               placeholder="Describe the problem they face and how your intervention changes their situation."
               value={state.primaryBeneficiary.affected}
               onChange={e => updateState({ primaryBeneficiary: { ...state.primaryBeneficiary, affected: e.target.value }})}
+              className="glass-input h-24"
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 pt-4 border-t border-border/30">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-medium">Secondary Stakeholders</h3>
+          <h3 className="text-xl font-semibold">Secondary Stakeholders</h3>
           {state.secondaryStakeholders.length < 4 && (
-            <Button variant="outline" size="sm" onClick={addSecondary}>+ Add Stakeholder</Button>
+            <button className="btn-ghost px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider" onClick={addSecondary}>+ Add Stakeholder</button>
           )}
         </div>
         
         {state.secondaryStakeholders.map((sh, idx) => (
-          <Card key={idx}>
-            <CardContent className="p-4 space-y-4 relative">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="absolute top-2 right-2 text-destructive"
-                onClick={() => removeSecondary(idx)}
-              >
-                Remove
-              </Button>
-              <div className="space-y-2 pt-2">
-                <Label>Group Name</Label>
+          <div key={idx} className="glass-card rounded-xl relative p-5">
+            <button 
+              className="absolute top-4 right-4 text-xs font-semibold text-red-400 hover:text-red-300 uppercase tracking-wider transition-colors"
+              onClick={() => removeSecondary(idx)}
+            >
+              Remove
+            </button>
+            <div className="space-y-5 mt-2">
+              <div className="space-y-2">
+                <Label className="text-muted-foreground">Group Name</Label>
                 <Input 
                   value={sh.name}
                   onChange={e => updateSecondary(idx, "name", e.target.value)}
                   placeholder="e.g. Local government"
+                  className="glass-input"
                 />
               </div>
               <div className="space-y-2">
-                <Label>How are they affected?</Label>
+                <Label className="text-muted-foreground">How are they affected?</Label>
                 <Textarea 
                   value={sh.affected}
                   onChange={e => updateSecondary(idx, "affected", e.target.value)}
+                  className="glass-input h-20"
                 />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
     </div>

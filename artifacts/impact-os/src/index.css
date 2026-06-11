@@ -22,23 +22,18 @@
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-primary-border: var(--primary-border);
-
+  
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-secondary-border: var(--secondary-border);
-
+  
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-muted-border: var(--muted-border);
-
+  
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-accent-border: var(--accent-border);
-
+  
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-destructive-border: var(--destructive-border);
 
   --font-sans: var(--app-font-sans);
   --radius-sm: calc(var(--radius) - 4px);
@@ -46,82 +41,166 @@
   --radius-lg: var(--radius);
 }
 
-:root {
-  --background: 60 14% 95%;
-  --foreground: 0 0% 10%;
-  --border: 60 5% 85%;
+:root, .dark {
+  /* Background: #0a0f1e -> 225 50% 8% */
+  --background: 225 50% 8%;
+  /* Text primary: #f0f4ff -> 224 100% 97% */
+  --foreground: 224 100% 97%;
   
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 10%;
-  --card-border: 60 5% 90%;
+  /* Border: rgba(59,130,246,0.2) -> 217 91% 60% / 0.2 approx */
+  --border: 217 91% 60%;
   
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 10%;
-  --popover-border: 60 5% 90%;
+  /* Card/glass backgrounds -> we'll use utility classes mostly, but here's a base */
+  --card: 226 57% 12%; /* #0d1530 approx */
+  --card-foreground: 224 100% 97%;
+  --card-border: 217 91% 60%;
   
-  --primary: 171 82% 26%;
+  --popover: 226 57% 12%;
+  --popover-foreground: 224 100% 97%;
+  --popover-border: 217 91% 60%;
+  
+  /* Primary accent: #3b82f6 -> 217 91% 60% */
+  --primary: 217 91% 60%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 171 10% 90%;
-  --secondary-foreground: 171 82% 20%;
+  /* Secondary accent: #0ea5e9 -> 199 89% 48% */
+  --secondary: 199 89% 48%;
+  --secondary-foreground: 0 0% 100%;
   
-  --muted: 60 10% 90%;
-  --muted-foreground: 60 5% 40%;
+  /* Text secondary: #8892aa -> 222 16% 60% */
+  --muted: 226 57% 12%;
+  --muted-foreground: 222 16% 60%;
   
-  --accent: 171 82% 96%;
-  --accent-foreground: 171 82% 26%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 0 0% 100%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   
-  --input: 60 5% 85%;
-  --ring: 171 82% 26%;
+  /* Input: #1a2040 -> 230 42% 18% */
+  --input: 230 42% 18%;
+  --ring: 217 91% 60%;
   
-  --app-font-sans: 'Inter', sans-serif;
+  --app-font-sans: 'Inter', system-ui, sans-serif;
   --radius: 0.5rem;
-  
-  --opaque-button-border-intensity: -8;
-}
-
-.dark {
-  --background: 0 0% 10%;
-  --foreground: 60 14% 95%;
-  --border: 0 0% 20%;
-  
-  --card: 0 0% 12%;
-  --card-foreground: 60 14% 95%;
-  --card-border: 0 0% 18%;
-  
-  --popover: 0 0% 12%;
-  --popover-foreground: 60 14% 95%;
-  --popover-border: 0 0% 18%;
-  
-  --primary: 171 82% 40%;
-  --primary-foreground: 0 0% 10%;
-  
-  --secondary: 171 10% 20%;
-  --secondary-foreground: 171 82% 90%;
-  
-  --muted: 0 0% 20%;
-  --muted-foreground: 0 0% 70%;
-  
-  --accent: 171 82% 16%;
-  --accent-foreground: 171 82% 86%;
-  
-  --destructive: 0 84% 40%;
-  --destructive-foreground: 0 0% 100%;
-  
-  --input: 0 0% 20%;
-  --ring: 171 82% 40%;
-  
-  --opaque-button-border-intensity: 9;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border/20;
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+  .glass-card-interactive {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+  }
+  .glass-card-interactive:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 20px -2px rgba(59, 130, 246, 0.15);
+  }
+  .glass-input {
+    background-color: #1a2040;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #f0f4ff;
+  }
+  .glass-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  .btn-gradient {
+    background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  .btn-gradient:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #f0f4ff;
+    transition: all 0.3s ease;
+  }
+  .btn-ghost:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.8);
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-blob-1 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(10,15,30,0) 70%);
+    top: -200px;
+    left: -200px;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: pulse-blob 10s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-blob-2 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, rgba(10,15,30,0) 70%);
+    bottom: -100px;
+    right: -100px;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: pulse-blob 12s ease-in-out infinite alternate-reverse;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+@keyframes pulse-blob {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+  50% { transform: scale(1.1) translate(20px, 20px); opacity: 1; }
+  100% { transform: scale(0.9) translate(-20px, -10px); opacity: 0.7; }
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .glass-card {
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+  .text-muted-foreground {
+    color: #4b5563 !important;
+  }
+  h1, h2, h3, h4, h5, h6, p, span, div, li {
+    color: black !important;
+  }
+  .text-gradient {
+    background: none !important;
+    -webkit-text-fill-color: black !important;
+    color: black !important;
   }
 }

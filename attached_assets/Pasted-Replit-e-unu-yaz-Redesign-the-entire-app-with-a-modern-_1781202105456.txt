@@ -1,0 +1,62 @@
+Replit'e şunu yaz:
+
+---
+
+Redesign the entire app with a modern AI startup aesthetic. Here are all the changes needed:
+
+**1. Rename:** Change all instances of "Impact OS" to "ImpactLabs" everywhere in the UI, header, report cover, page title, and any branding.
+
+**2. Color System — Dark Navy AI Startup Theme:**
+- Background: #0a0f1e (deep navy)
+- Secondary background: #0d1530 (dark navy)
+- Card/glass surfaces: rgba(255,255,255,0.05) with backdrop-filter: blur(12px) and border: 1px solid rgba(59,130,246,0.2)
+- Primary accent: #3b82f6 (bright blue)
+- Secondary accent: #0ea5e9 (sky blue)
+- Gradient: linear-gradient(135deg, #3b82f6, #0ea5e9)
+- Text primary: #f0f4ff
+- Text secondary: #8892aa
+- Glow effects: blue only
+- No purple, no violet, no indigo anywhere
+
+**3. Landing/Welcome Page (replace current Step 0):**
+Create a beautiful hero section:
+- Full screen dark navy background with subtle animated gradient blob in background (CSS only, no libraries)
+- Top navbar: "ImpactLabs" logo left, "BV Labs" subtle text right
+- Center: Big headline "Build Impact Reports That Actually Matter"
+- Subheadline: "Most organizations report backwards. ImpactLabs guides you through the right methodology — starting from the change you want to create."
+- Three stat pills: "17 SDGs Covered" and "AI-Powered" and "5-Step Wizard"
+- Large "Get Started →" button with gradient background (#3b82f6 to #0ea5e9)
+- Below: 3 feature cards in glass style explaining the problem/solution
+- No login, no signup — just Get Started goes directly to the wizard
+
+**4. SDG Selection Step (Step 1):**
+- Remove the big colorful full-width SDG blocks
+- Replace with a compact grid (4 columns on desktop, 2 on mobile) of small square tiles
+- Each tile: SDG number + short name
+- Unselected: dark glass card rgba(255,255,255,0.05), subtle blue border
+- Selected: blue glowing border #3b82f6, slight blue glow effect, checkmark
+- Much more compact and scannable
+
+**5. All Form Steps:**
+- Dark glass cards for all input sections
+- Input fields: background #1a2040, border rgba(255,255,255,0.15), white text, blue focus ring #3b82f6
+- Labels in #8892aa color
+- Helper/tooltip text in subtle italic
+- Step progress bar: gradient from #3b82f6 to #0ea5e9
+- Step indicator: "Step X of 5" top right, subtle
+
+**6. Buttons:**
+- Primary: gradient background #3b82f6 to #0ea5e9, white text, rounded-lg, hover lifts slightly with box-shadow
+- Secondary/Back: transparent with blue border, ghost style
+
+**7. Typography:**
+- Headlines: font-weight 700, tracking tight
+- Body: font-weight 400, #8892aa for descriptions
+- Font stack: Inter, system-ui
+
+**8. Report Preview (Step 5):**
+- In-app preview: dark glass panels
+- Print CSS: white background, dark text for clean PDF output
+- "ImpactLabs by BV Labs" branding on cover
+
+Apply these changes consistently across every single screen. No purple anywhere. The overall feel should be: dark, clean, navy blue, credible, modern AI tool.

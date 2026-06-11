@@ -75,42 +75,131 @@ export const GenerateReportBody = zod.object({
   "activities": zod.array(zod.string()).optional(),
   "outputs": zod.array(zod.string()).optional(),
   "outcomes": zod.array(zod.string()).optional(),
-  "impact": zod.array(zod.string()).optional()
+  "impact": zod.array(zod.string()).optional(),
+  "website": zod.string().optional(),
+  "beneficiaryGroups": zod.array(zod.string()).optional(),
+  "keyPrograms": zod.array(zod.object({
+  "name": zod.string(),
+  "description": zod.string()
+})).optional(),
+  "keyMetrics": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.string()
+})).optional()
 })
 
 export const GenerateReportResponse = zod.object({
-  "executiveSummary": zod.string(),
-  "sdgAlignment": zod.array(zod.object({
-  "sdg": zod.number(),
-  "whyItMatters": zod.string(),
-  "expectedContribution": zod.string()
-})),
-  "stakeholderAnalysis": zod.string(),
-  "theoryOfChangeNarrative": zod.string(),
-  "impactStrategy": zod.object({
-  "longTermVision": zod.string(),
-  "strategicObjectives": zod.array(zod.string()),
-  "keyInitiatives": zod.array(zod.string())
+  "heroMetric": zod.object({
+  "value": zod.string(),
+  "label": zod.string(),
+  "context": zod.string()
 }),
-  "measurementFramework": zod.string(),
-  "risks": zod.object({
-  "keyRisks": zod.array(zod.string()),
-  "dependencies": zod.array(zod.string()),
-  "mitigation": zod.array(zod.string())
+  "glanceKpis": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.string(),
+  "change": zod.string()
+})),
+  "achievementsTimeline": zod.array(zod.object({
+  "date": zod.string(),
+  "title": zod.string(),
+  "description": zod.string()
+})),
+  "overview": zod.object({
+  "mission": zod.string(),
+  "vision": zod.string(),
+  "problem": zod.string(),
+  "targetBeneficiaries": zod.string()
+}),
+  "programs": zod.array(zod.object({
+  "name": zod.string(),
+  "objective": zod.string(),
+  "activities": zod.array(zod.string()),
+  "outputs": zod.array(zod.string()),
+  "outcomes": zod.array(zod.string()),
+  "beneficiaries": zod.string(),
+  "metrics": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.string()
+}))
+})),
+  "beneficiaryImpact": zod.object({
+  "profiles": zod.array(zod.object({
+  "name": zod.string(),
+  "group": zod.string(),
+  "story": zod.string(),
+  "quote": zod.string(),
+  "before": zod.string(),
+  "after": zod.string()
+})),
+  "testimonials": zod.array(zod.object({
+  "quote": zod.string(),
+  "author": zod.string(),
+  "role": zod.string()
+}))
+}),
+  "dashboard": zod.object({
+  "metrics": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.string(),
+  "unit": zod.string(),
+  "change": zod.string()
+})),
+  "growthSeries": zod.array(zod.object({
+  "period": zod.string(),
+  "value": zod.number()
+})),
+  "distribution": zod.array(zod.object({
+  "name": zod.string(),
+  "value": zod.number()
+})),
+  "progressBars": zod.array(zod.object({
+  "label": zod.string(),
+  "current": zod.number(),
+  "target": zod.number(),
+  "unit": zod.string()
+})),
+  "geographic": zod.array(zod.object({
+  "region": zod.string(),
+  "value": zod.number()
+}))
+}),
+  "theoryOfChange": zod.object({
+  "inputs": zod.array(zod.string()),
+  "activities": zod.array(zod.string()),
+  "outputs": zod.array(zod.string()),
+  "outcomes": zod.array(zod.string()),
+  "longTermImpact": zod.array(zod.string())
+}),
+  "measurementFramework": zod.array(zod.object({
+  "metric": zod.string(),
+  "baseline": zod.string(),
+  "target": zod.string(),
+  "current": zod.string(),
+  "dataSource": zod.string(),
+  "frequency": zod.string()
+})),
+  "challengesLearnings": zod.object({
+  "challenges": zod.array(zod.object({
+  "challenge": zod.string(),
+  "lesson": zod.string(),
+  "adaptation": zod.string()
+})),
+  "risks": zod.array(zod.string()),
+  "futureImprovements": zod.array(zod.string())
 }),
   "futureCommitments": zod.object({
   "nextYearGoals": zod.array(zod.string()),
-  "expansionPlans": zod.array(zod.string()),
-  "sdgRoadmap": zod.array(zod.string())
-}),
-  "progressMetrics": zod.object({
-  "beneficiariesReached": zod.number(),
-  "partnershipsFormed": zod.number(),
-  "projectsLaunched": zod.number(),
-  "impactGrowth": zod.array(zod.object({
+  "roadmap": zod.array(zod.object({
   "period": zod.string(),
-  "value": zod.number()
-}))
+  "goal": zod.string()
+})),
+  "expansionPlans": zod.array(zod.string()),
+  "longTermVision": zod.string()
+}),
+  "appendix": zod.object({
+  "methodology": zod.string(),
+  "dataSources": zod.array(zod.string()),
+  "reportingNotes": zod.string()
 })
 })
 

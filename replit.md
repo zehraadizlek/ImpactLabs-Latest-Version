@@ -1,10 +1,11 @@
-# [Project name]
+# ImpactLabs
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+ImpactLabs turns an organization's raw inputs into an investor- and grantmaker-grade, visual-first AI impact report that dynamically adapts to the organization's type (education, startup, climate, healthcare, nonprofit, social enterprise).
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/impact-os run dev` — run the ImpactLabs web app
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -19,26 +20,42 @@ _Replace the heading above with the project's name, and this line with one sente
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
+- Web: React + Vite, Tailwind, shadcn/ui, recharts (charts), framer-motion (motion)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/impact-os/src/lib/state.ts` — source of truth for the frontend data contract: `AppState` (wizard inputs) and `GeneratedReport` (the 11-section report shape). `STORAGE_KEY` is versioned (`impactos-state-v2`); bump it whenever the persisted shape changes.
+- `artifacts/impact-os/src/components/steps/` — the 6-step onboarding wizard (Step0–Step5).
+- `artifacts/impact-os/src/components/report/ReportViewer.tsx` — the 11-section visual-first report.
+- `artifacts/impact-os/src/lib/exports.ts` — PPTX/DOCX export builders; PDF export is `window.print()`.
+- `artifacts/impact-os/src/index.css` — theme tokens, glassmorphism utilities, and the `@media print` contract for PDF output.
+- `artifacts/api-server/src/routes/ai.ts` — `/api/ai/generate-report` (two parallel Anthropic calls, merged and Zod-validated), plus `/ai/generate-theory` and `/ai/suggest-kpis`.
+- `lib/api-spec/openapi.yaml` — API contract (source for codegen). `info.title` is `Api` — do NOT change it (it controls generated filenames).
+- `lib/api-client-react/src/generated/` — generated React Query hooks + Zod schemas.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The report is generated in TWO parallel Anthropic calls (narrative sections + visual/metric sections), merged, then validated against the generated `GeneratedReport` Zod schema; a mismatch returns 500. This keeps each prompt focused and within token limits.
+- The report shape is intentionally visual-first (~70% visual / 30% text) and org-type adaptive (e.g. CO2e tonnes for climate, students for education) — the AI prompt enforces org-type framing and array-size caps.
+- Geographic reach is a horizontal bar chart (recharts), not a map — there are no geo/map dependencies installed, by design.
+- PDF export is browser print (`window.print()`), so the report must stay print-clean via the `@media print` block (controls hidden, glass neutralized, page-break handling).
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- A 6-step onboarding wizard collects organization profile, beneficiary groups, key programs, theory-of-change inputs, measurement framework, key metrics, and (lightly) SDG context.
+- One click generates an 11-section report: Cover with hero metric, Impact At A Glance, Organization Overview, Programs & Initiatives, Beneficiary Impact, Impact Dashboard, Theory of Change, Measurement Framework, Challenges & Learnings, Future Commitments, Appendix.
+- The report can be exported to PPTX, DOCX, and PDF, and shared via a compact URL.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Communicate with the user in Turkish.
+- Visual style: dark navy glassmorphism. NEVER use purple/violet/indigo. NEVER use emojis anywhere in the UI.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- `sdgs` must be sent to `/api/ai/generate-report` as STRINGS (`.map(String)`) — the API rejects numbers.
+- Bump `STORAGE_KEY` in `state.ts` whenever the `GeneratedReport`/`AppState` shape changes, or stale localStorage will crash the report viewer.
+- Do NOT change the OpenAPI `info.title`; it controls generated filenames.
 
 ## Pointers
 

@@ -1,1 +1,2 @@
 - [Redesign drops providers](redesign-provider-wrappers.md) — App.tsx rewrites can silently drop QueryClientProvider/TooltipProvider; verify the tree is still wrapped.
+- [Subagent early returns](subagent-early-return.md) — big delegated builds can bail with no edits; relaunch with a hard "complete it, don't return early" mandate + per-file checklist + typecheck finish-criterion.

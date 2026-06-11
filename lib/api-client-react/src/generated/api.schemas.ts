@@ -39,6 +39,16 @@ export interface KpiResult {
   kpis: KpiSuggestion[];
 }
 
+export interface ProgramInput {
+  name: string;
+  description: string;
+}
+
+export interface MetricInput {
+  label: string;
+  value: string;
+}
+
 export interface ReportInput {
   orgName: string;
   orgType?: string;
@@ -54,54 +64,169 @@ export interface ReportInput {
   outputs?: string[];
   outcomes?: string[];
   impact?: string[];
+  website?: string;
+  beneficiaryGroups?: string[];
+  keyPrograms?: ProgramInput[];
+  keyMetrics?: MetricInput[];
 }
 
-export interface SdgAlignment {
-  sdg: number;
-  whyItMatters: string;
-  expectedContribution: string;
+export interface HeroMetric {
+  value: string;
+  label: string;
+  context: string;
 }
 
-export interface ImpactStrategy {
-  longTermVision: string;
-  strategicObjectives: string[];
-  keyInitiatives: string[];
+export interface GlanceKpi {
+  label: string;
+  value: string;
+  change: string;
 }
 
-export interface RiskAnalysis {
-  keyRisks: string[];
-  dependencies: string[];
-  mitigation: string[];
+export interface TimelineItem {
+  date: string;
+  title: string;
+  description: string;
 }
 
-export interface FutureCommitments {
-  nextYearGoals: string[];
-  expansionPlans: string[];
-  sdgRoadmap: string[];
+export interface OrgOverview {
+  mission: string;
+  vision: string;
+  problem: string;
+  targetBeneficiaries: string;
 }
 
-export interface ImpactGrowthPoint {
+export interface ProgramMetric {
+  label: string;
+  value: string;
+}
+
+export interface Program {
+  name: string;
+  objective: string;
+  activities: string[];
+  outputs: string[];
+  outcomes: string[];
+  beneficiaries: string;
+  metrics: ProgramMetric[];
+}
+
+export interface BeneficiaryProfile {
+  name: string;
+  group: string;
+  story: string;
+  quote: string;
+  before: string;
+  after: string;
+}
+
+export interface Testimonial {
+  quote: string;
+  author: string;
+  role: string;
+}
+
+export interface BeneficiaryImpact {
+  profiles: BeneficiaryProfile[];
+  testimonials: Testimonial[];
+}
+
+export interface DashboardMetric {
+  label: string;
+  value: string;
+  unit: string;
+  change: string;
+}
+
+export interface GrowthPoint {
   period: string;
   value: number;
 }
 
-export interface ProgressMetrics {
-  beneficiariesReached: number;
-  partnershipsFormed: number;
-  projectsLaunched: number;
-  impactGrowth: ImpactGrowthPoint[];
+export interface DistributionSlice {
+  name: string;
+  value: number;
+}
+
+export interface ProgressBar {
+  label: string;
+  current: number;
+  target: number;
+  unit: string;
+}
+
+export interface GeoPoint {
+  region: string;
+  value: number;
+}
+
+export interface ImpactDashboard {
+  metrics: DashboardMetric[];
+  growthSeries: GrowthPoint[];
+  distribution: DistributionSlice[];
+  progressBars: ProgressBar[];
+  geographic: GeoPoint[];
+}
+
+export interface TheoryOfChangeVisual {
+  inputs: string[];
+  activities: string[];
+  outputs: string[];
+  outcomes: string[];
+  longTermImpact: string[];
+}
+
+export interface MeasurementRow {
+  metric: string;
+  baseline: string;
+  target: string;
+  current: string;
+  dataSource: string;
+  frequency: string;
+}
+
+export interface ChallengeItem {
+  challenge: string;
+  lesson: string;
+  adaptation: string;
+}
+
+export interface ChallengesLearnings {
+  challenges: ChallengeItem[];
+  risks: string[];
+  futureImprovements: string[];
+}
+
+export interface Milestone {
+  period: string;
+  goal: string;
+}
+
+export interface FutureCommitments {
+  nextYearGoals: string[];
+  roadmap: Milestone[];
+  expansionPlans: string[];
+  longTermVision: string;
+}
+
+export interface Appendix {
+  methodology: string;
+  dataSources: string[];
+  reportingNotes: string;
 }
 
 export interface GeneratedReport {
-  executiveSummary: string;
-  sdgAlignment: SdgAlignment[];
-  stakeholderAnalysis: string;
-  theoryOfChangeNarrative: string;
-  impactStrategy: ImpactStrategy;
-  measurementFramework: string;
-  risks: RiskAnalysis;
+  heroMetric: HeroMetric;
+  glanceKpis: GlanceKpi[];
+  achievementsTimeline: TimelineItem[];
+  overview: OrgOverview;
+  programs: Program[];
+  beneficiaryImpact: BeneficiaryImpact;
+  dashboard: ImpactDashboard;
+  theoryOfChange: TheoryOfChangeVisual;
+  measurementFramework: MeasurementRow[];
+  challengesLearnings: ChallengesLearnings;
   futureCommitments: FutureCommitments;
-  progressMetrics: ProgressMetrics;
+  appendix: Appendix;
 }
 
 export interface ErrorResponse {

@@ -6,8 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface RiskAnalysis {
-  keyRisks: string[];
-  dependencies: string[];
-  mitigation: string[];
+export interface ProgressBar {
+  label: string;
+  current: number;
+  target: number;
+  unit: string;
 }

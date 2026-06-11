@@ -5,6 +5,8 @@
  * ImpactOS API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { MetricInput } from './metricInput';
+import type { ProgramInput } from './programInput';
 
 export interface ReportInput {
   orgName: string;
@@ -21,4 +23,8 @@ export interface ReportInput {
   outputs?: string[];
   outcomes?: string[];
   impact?: string[];
+  website?: string;
+  beneficiaryGroups?: string[];
+  keyPrograms?: ProgramInput[];
+  keyMetrics?: MetricInput[];
 }

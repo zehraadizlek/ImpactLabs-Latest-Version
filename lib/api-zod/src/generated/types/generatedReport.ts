@@ -5,20 +5,30 @@
  * ImpactOS API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Appendix } from './appendix';
+import type { BeneficiaryImpact } from './beneficiaryImpact';
+import type { ChallengesLearnings } from './challengesLearnings';
 import type { FutureCommitments } from './futureCommitments';
-import type { ImpactStrategy } from './impactStrategy';
-import type { ProgressMetrics } from './progressMetrics';
-import type { RiskAnalysis } from './riskAnalysis';
-import type { SdgAlignment } from './sdgAlignment';
+import type { GlanceKpi } from './glanceKpi';
+import type { HeroMetric } from './heroMetric';
+import type { ImpactDashboard } from './impactDashboard';
+import type { MeasurementRow } from './measurementRow';
+import type { OrgOverview } from './orgOverview';
+import type { Program } from './program';
+import type { TheoryOfChangeVisual } from './theoryOfChangeVisual';
+import type { TimelineItem } from './timelineItem';
 
 export interface GeneratedReport {
-  executiveSummary: string;
-  sdgAlignment: SdgAlignment[];
-  stakeholderAnalysis: string;
-  theoryOfChangeNarrative: string;
-  impactStrategy: ImpactStrategy;
-  measurementFramework: string;
-  risks: RiskAnalysis;
+  heroMetric: HeroMetric;
+  glanceKpis: GlanceKpi[];
+  achievementsTimeline: TimelineItem[];
+  overview: OrgOverview;
+  programs: Program[];
+  beneficiaryImpact: BeneficiaryImpact;
+  dashboard: ImpactDashboard;
+  theoryOfChange: TheoryOfChangeVisual;
+  measurementFramework: MeasurementRow[];
+  challengesLearnings: ChallengesLearnings;
   futureCommitments: FutureCommitments;
-  progressMetrics: ProgressMetrics;
+  appendix: Appendix;
 }

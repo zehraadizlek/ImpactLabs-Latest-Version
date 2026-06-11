@@ -6,8 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface SdgAlignment {
-  sdg: number;
-  whyItMatters: string;
-  expectedContribution: string;
+export interface OrgOverview {
+  mission: string;
+  vision: string;
+  problem: string;
+  targetBeneficiaries: string;
 }

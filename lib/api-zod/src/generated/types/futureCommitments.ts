@@ -5,9 +5,11 @@
  * ImpactOS API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Milestone } from './milestone';
 
 export interface FutureCommitments {
   nextYearGoals: string[];
+  roadmap: Milestone[];
   expansionPlans: string[];
-  sdgRoadmap: string[];
+  longTermVision: string;
 }

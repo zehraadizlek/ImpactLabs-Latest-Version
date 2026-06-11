@@ -6,7 +6,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ImpactGrowthPoint {
-  period: string;
-  value: number;
+export interface GlanceKpi {
+  label: string;
+  value: string;
+  change: string;
 }

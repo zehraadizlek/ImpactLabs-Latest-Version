@@ -51,7 +51,7 @@ export default function Step0Welcome({ state, updateState }: Props) {
           Most organizations report backwards. ImpactLabs guides you through the right methodology — starting from the change you want to create.
         </p>
 
-        <div className="glass-card max-w-2xl mx-auto p-8 rounded-2xl text-left space-y-6 mt-12 mb-12">
+        <div className="glass-card max-w-2xl mx-auto p-8 rounded-2xl text-left space-y-6 mt-12 mb-12 relative z-10">
           <div className="space-y-6">
             <h3 className="font-semibold text-xl border-b border-border/30 pb-3">Organization Profile</h3>
             
@@ -107,7 +107,7 @@ export default function Step0Welcome({ state, updateState }: Props) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="website" className="text-muted-foreground uppercase text-xs tracking-wider">Website (Optional)</Label>
+                <Label htmlFor="website" className="text-muted-foreground uppercase text-xs tracking-wider">Website</Label>
                 <Input 
                   id="website"
                   placeholder="https://..." 
@@ -184,7 +184,7 @@ export default function Step0Welcome({ state, updateState }: Props) {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mt-16 relative z-10">
           <div className="glass-card p-6 rounded-xl space-y-3">
             <Target className="w-8 h-8 text-primary" />
             <h3 className="font-semibold text-lg">Reverse Impact Logic</h3>

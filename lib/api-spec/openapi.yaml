@@ -258,75 +258,204 @@ components:
           type: array
           items:
             type: string
-    SdgAlignment:
-      type: object
-      required:
-        - sdg
-        - whyItMatters
-        - expectedContribution
-      properties:
-        sdg:
-          type: integer
-        whyItMatters:
+        website:
           type: string
-        expectedContribution:
+        beneficiaryGroups:
+          type: array
+          items:
+            type: string
+        keyPrograms:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProgramInput"
+        keyMetrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetricInput"
+    ProgramInput:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
           type: string
-    ImpactStrategy:
-      type: object
-      required:
-        - longTermVision
-        - strategicObjectives
-        - keyInitiatives
-      properties:
-        longTermVision:
+        description:
           type: string
-        strategicObjectives:
-          type: array
-          items:
-            type: string
-        keyInitiatives:
-          type: array
-          items:
-            type: string
-    RiskAnalysis:
+    MetricInput:
       type: object
       required:
-        - keyRisks
-        - dependencies
-        - mitigation
+        - label
+        - value
       properties:
-        keyRisks:
-          type: array
-          items:
-            type: string
-        dependencies:
-          type: array
-          items:
-            type: string
-        mitigation:
-          type: array
-          items:
-            type: string
-    FutureCommitments:
+        label:
+          type: string
+        value:
+          type: string
+    HeroMetric:
       type: object
       required:
-        - nextYearGoals
-        - expansionPlans
-        - sdgRoadmap
+        - value
+        - label
+        - context
       properties:
-        nextYearGoals:
+        value:
+          type: string
+        label:
+          type: string
+        context:
+          type: string
+    GlanceKpi:
+      type: object
+      required:
+        - label
+        - value
+        - change
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        change:
+          type: string
+    TimelineItem:
+      type: object
+      required:
+        - date
+        - title
+        - description
+      properties:
+        date:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+    OrgOverview:
+      type: object
+      required:
+        - mission
+        - vision
+        - problem
+        - targetBeneficiaries
+      properties:
+        mission:
+          type: string
+        vision:
+          type: string
+        problem:
+          type: string
+        targetBeneficiaries:
+          type: string
+    ProgramMetric:
+      type: object
+      required:
+        - label
+        - value
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+    Program:
+      type: object
+      required:
+        - name
+        - objective
+        - activities
+        - outputs
+        - outcomes
+        - beneficiaries
+        - metrics
+      properties:
+        name:
+          type: string
+        objective:
+          type: string
+        activities:
           type: array
           items:
             type: string
-        expansionPlans:
+        outputs:
           type: array
           items:
             type: string
-        sdgRoadmap:
+        outcomes:
           type: array
           items:
             type: string
-    ImpactGrowthPoint:
+        beneficiaries:
+          type: string
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProgramMetric"
+    BeneficiaryProfile:
+      type: object
+      required:
+        - name
+        - group
+        - story
+        - quote
+        - before
+        - after
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+        story:
+          type: string
+        quote:
+          type: string
+        before:
+          type: string
+        after:
+          type: string
+    Testimonial:
+      type: object
+      required:
+        - quote
+        - author
+        - role
+      properties:
+        quote:
+          type: string
+        author:
+          type: string
+        role:
+          type: string
+    BeneficiaryImpact:
+      type: object
+      required:
+        - profiles
+        - testimonials
+      properties:
+        profiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/BeneficiaryProfile"
+        testimonials:
+          type: array
+          items:
+            $ref: "#/components/schemas/Testimonial"
+    DashboardMetric:
+      type: object
+      required:
+        - label
+        - value
+        - unit
+        - change
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        unit:
+          type: string
+        change:
+          type: string
+    GrowthPoint:
       type: object
       required:
         - period
@@ -336,57 +465,249 @@ components:
           type: string
         value:
           type: number
-    ProgressMetrics:
+    DistributionSlice:
       type: object
       required:
-        - beneficiariesReached
-        - partnershipsFormed
-        - projectsLaunched
-        - impactGrowth
+        - name
+        - value
       properties:
-        beneficiariesReached:
+        name:
+          type: string
+        value:
           type: number
-        partnershipsFormed:
+    ProgressBar:
+      type: object
+      required:
+        - label
+        - current
+        - target
+        - unit
+      properties:
+        label:
+          type: string
+        current:
           type: number
-        projectsLaunched:
+        target:
           type: number
-        impactGrowth:
+        unit:
+          type: string
+    GeoPoint:
+      type: object
+      required:
+        - region
+        - value
+      properties:
+        region:
+          type: string
+        value:
+          type: number
+    ImpactDashboard:
+      type: object
+      required:
+        - metrics
+        - growthSeries
+        - distribution
+        - progressBars
+        - geographic
+      properties:
+        metrics:
           type: array
           items:
-            $ref: "#/components/schemas/ImpactGrowthPoint"
+            $ref: "#/components/schemas/DashboardMetric"
+        growthSeries:
+          type: array
+          items:
+            $ref: "#/components/schemas/GrowthPoint"
+        distribution:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistributionSlice"
+        progressBars:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProgressBar"
+        geographic:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeoPoint"
+    TheoryOfChangeVisual:
+      type: object
+      required:
+        - inputs
+        - activities
+        - outputs
+        - outcomes
+        - longTermImpact
+      properties:
+        inputs:
+          type: array
+          items:
+            type: string
+        activities:
+          type: array
+          items:
+            type: string
+        outputs:
+          type: array
+          items:
+            type: string
+        outcomes:
+          type: array
+          items:
+            type: string
+        longTermImpact:
+          type: array
+          items:
+            type: string
+    MeasurementRow:
+      type: object
+      required:
+        - metric
+        - baseline
+        - target
+        - current
+        - dataSource
+        - frequency
+      properties:
+        metric:
+          type: string
+        baseline:
+          type: string
+        target:
+          type: string
+        current:
+          type: string
+        dataSource:
+          type: string
+        frequency:
+          type: string
+    ChallengeItem:
+      type: object
+      required:
+        - challenge
+        - lesson
+        - adaptation
+      properties:
+        challenge:
+          type: string
+        lesson:
+          type: string
+        adaptation:
+          type: string
+    ChallengesLearnings:
+      type: object
+      required:
+        - challenges
+        - risks
+        - futureImprovements
+      properties:
+        challenges:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChallengeItem"
+        risks:
+          type: array
+          items:
+            type: string
+        futureImprovements:
+          type: array
+          items:
+            type: string
+    Milestone:
+      type: object
+      required:
+        - period
+        - goal
+      properties:
+        period:
+          type: string
+        goal:
+          type: string
+    FutureCommitments:
+      type: object
+      required:
+        - nextYearGoals
+        - roadmap
+        - expansionPlans
+        - longTermVision
+      properties:
+        nextYearGoals:
+          type: array
+          items:
+            type: string
+        roadmap:
+          type: array
+          items:
+            $ref: "#/components/schemas/Milestone"
+        expansionPlans:
+          type: array
+          items:
+            type: string
+        longTermVision:
+          type: string
+    Appendix:
+      type: object
+      required:
+        - methodology
+        - dataSources
+        - reportingNotes
+      properties:
+        methodology:
+          type: string
+        dataSources:
+          type: array
+          items:
+            type: string
+        reportingNotes:
+          type: string
     GeneratedReport:
       type: object
       required:
-        - executiveSummary
-        - sdgAlignment
-        - stakeholderAnalysis
-        - theoryOfChangeNarrative
-        - impactStrategy
+        - heroMetric
+        - glanceKpis
+        - achievementsTimeline
+        - overview
+        - programs
+        - beneficiaryImpact
+        - dashboard
+        - theoryOfChange
         - measurementFramework
-        - risks
+        - challengesLearnings
         - futureCommitments
-        - progressMetrics
+        - appendix
       properties:
-        executiveSummary:
-          type: string
-        sdgAlignment:
+        heroMetric:
+          $ref: "#/components/schemas/HeroMetric"
+        glanceKpis:
           type: array
           items:
-            $ref: "#/components/schemas/SdgAlignment"
-        stakeholderAnalysis:
-          type: string
-        theoryOfChangeNarrative:
-          type: string
-        impactStrategy:
-          $ref: "#/components/schemas/ImpactStrategy"
+            $ref: "#/components/schemas/GlanceKpi"
+        achievementsTimeline:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimelineItem"
+        overview:
+          $ref: "#/components/schemas/OrgOverview"
+        programs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Program"
+        beneficiaryImpact:
+          $ref: "#/components/schemas/BeneficiaryImpact"
+        dashboard:
+          $ref: "#/components/schemas/ImpactDashboard"
+        theoryOfChange:
+          $ref: "#/components/schemas/TheoryOfChangeVisual"
         measurementFramework:
-          type: string
-        risks:
-          $ref: "#/components/schemas/RiskAnalysis"
+          type: array
+          items:
+            $ref: "#/components/schemas/MeasurementRow"
+        challengesLearnings:
+          $ref: "#/components/schemas/ChallengesLearnings"
         futureCommitments:
           $ref: "#/components/schemas/FutureCommitments"
-        progressMetrics:
-          $ref: "#/components/schemas/ProgressMetrics"
+        appendix:
+          $ref: "#/components/schemas/Appendix"
     ErrorResponse:
       type: object
       required:

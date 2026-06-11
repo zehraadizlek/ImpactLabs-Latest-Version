@@ -1,0 +1,196 @@
+Build Impact OS as a true investor-grade and grantmaker-grade impact reporting platform, not a generic SDG report generator.
+
+The current report structure feels too academic, overly focused on SDG descriptions, and contains large blocks of AI-generated text. Instead, redesign the platform to resemble modern impact reports published by leading social enterprises, foundations, accelerators, and B-Corps.
+
+The experience should begin with an onboarding flow where users enter their organization information:
+
+* Organization Name
+* Logo
+* Organization Type
+* Industry
+* Country / Region
+* Reporting Period
+* Website
+* Mission Statement
+* Beneficiary Groups
+* Key Programs
+* Key Metrics
+
+The organization name should be used throughout the report so every report feels personalized and unique.
+
+The generated report should focus on evidence, outcomes, impact metrics, growth, and accountability rather than lengthy explanations.
+
+Replace long essay-style sections with visual storytelling, dashboards, KPI cards, charts, timelines, maps, beneficiary stories, and outcome-focused summaries.
+
+The report should follow this structure:
+
+1. Cover Page
+
+* Organization Logo
+* Organization Name
+* Impact Report Year
+* Mission Statement
+* Hero Metric Banner
+* Professional annual report aesthetic
+
+2. Impact At A Glance
+
+* Beneficiaries Reached
+* Programs Delivered
+* Partnerships Formed
+* Volunteers Engaged
+* Funds Raised
+* Communities Served
+* Geographic Reach
+* Year-over-Year Growth
+* Visual KPI cards
+* Timeline of major achievements
+
+3. Organization Overview
+
+* Mission
+* Vision
+* Problem Being Addressed
+* Target Beneficiaries
+* Brief narrative only
+* Maximum 250 words
+
+4. Programs & Initiatives
+   Generate a dedicated section for every program.
+
+Each program should include:
+
+* Program Name
+* Objective
+* Activities
+* Outputs
+* Outcomes
+* Beneficiaries
+* Metrics
+* Optional images
+
+5. Beneficiary Impact
+   This should become one of the largest sections.
+
+Include:
+
+* Beneficiary Profiles
+* Success Stories
+* Testimonials
+* Before vs After Comparisons
+* Human-centered storytelling
+* Outcome evidence
+
+The platform should generate realistic impact stories based on user inputs.
+
+6. Impact Dashboard
+   Generate visual analytics including:
+
+* Growth charts
+* Progress bars
+* KPI cards
+* Geographic maps
+* Trend analysis
+* Impact distribution charts
+
+Metrics should adapt to organization type.
+
+Examples:
+
+Education:
+
+* Students Reached
+* Schools Served
+* Mentorship Hours
+* Scholarships Awarded
+
+Startup:
+
+* Customers Served
+* Revenue Impact
+* Jobs Created
+* Product Adoption
+
+Climate:
+
+* CO₂ Reduced
+* Energy Saved
+* Waste Diverted
+
+Healthcare:
+
+* Patients Reached
+* Treatments Delivered
+* Health Outcomes
+
+7. Theory of Change
+   Redesign completely.
+
+Do not generate long paragraphs.
+
+Create a visual framework:
+
+Inputs → Activities → Outputs → Outcomes → Long-Term Impact
+
+Each stage should contain concise bullet points and visual flow diagrams.
+
+8. Measurement Framework
+   Show:
+
+* Metrics Tracked
+* Baselines
+* Targets
+* Current Progress
+* Data Sources
+* Collection Frequency
+
+Display as tables and dashboards rather than paragraphs.
+
+9. Challenges & Learnings
+   Include:
+
+* Key Challenges
+* Risks
+* Lessons Learned
+* Adaptations Made
+* Future Improvements
+
+Use concise cards and callout sections.
+
+10. Future Commitments
+    Include:
+
+* Next Year Goals
+* Strategic Roadmap
+* Expansion Plans
+* Long-Term Vision
+
+Display as milestones and timelines.
+
+11. Appendix
+
+* Organization Details
+* Contact Information
+* Methodology
+* Data Sources
+* Reporting Notes
+
+Generation Rules:
+
+* Maximum 30% text
+* Minimum 70% visual content
+* Use cards instead of paragraphs whenever possible
+* Use charts wherever metrics exist
+* Use timelines instead of long narrative sections
+* Use comparison tables instead of repetitive text
+* Every claim should be connected to a metric
+* Avoid generic sustainability jargon
+* Avoid excessive SDG explanations
+* Avoid academic essay writing
+* Avoid filler text
+
+Most importantly, the report must dynamically adapt to the organization.
+
+An AI startup, nonprofit, student initiative, climate organization, health project, education program, or social enterprise should all generate different report structures, metrics, visuals, and narratives.
+
+The final result should feel closer to a modern annual report from Acumen, Ashoka, Skoll Foundation, Gates Foundation, YC-backed social ventures, and leading B-Corp companies rather than a generic SDG assignment.

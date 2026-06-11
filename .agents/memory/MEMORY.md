@@ -1,0 +1,1 @@
+- [Redesign drops providers](redesign-provider-wrappers.md) — App.tsx rewrites can silently drop QueryClientProvider/TooltipProvider; verify the tree is still wrapped.

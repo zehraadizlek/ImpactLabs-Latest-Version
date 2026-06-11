@@ -30,7 +30,9 @@ export default function App() {
   const prevStep = () => updateState({ step: Math.max(0, state.step - 1) });
 
   return (
-    <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-hidden dark">
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-hidden dark">
       {state.step > 0 && <div className="bg-blob-1" />}
       {state.step > 0 && <div className="bg-blob-2" />}
 
@@ -74,6 +76,9 @@ export default function App() {
           </div>
         </div>
       )}
-    </div>
+        </div>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }

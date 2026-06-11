@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ImpactOS API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: ai
+    description: AI-powered impact analysis
 paths:
   /healthz:
     get:
@@ -24,6 +26,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /ai/generate-theory:
+    post:
+      operationId: generateTheoryOfChange
+      tags: [ai]
+      summary: Generate Theory of Change
+      description: >
+        Uses AI to generate Outcomes and Impact statements given the
+        organization's SDG focus, primary beneficiary, activities, and outputs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TheoryInput"
+      responses:
+        "200":
+          description: Generated outcomes and impact statements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TheoryResult"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: AI generation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +68,52 @@ components:
           type: string
       required:
         - status
-
+    TheoryInput:
+      type: object
+      required:
+        - sdgs
+        - beneficiary
+        - activities
+        - outputs
+      properties:
+        sdgs:
+          type: array
+          items:
+            type: string
+          description: List of SDG names the organization focuses on
+        beneficiary:
+          type: string
+          description: Primary beneficiary group
+        activities:
+          type: array
+          items:
+            type: string
+          description: What the organization does
+        outputs:
+          type: array
+          items:
+            type: string
+          description: Direct results of the activities
+    TheoryResult:
+      type: object
+      required:
+        - outcomes
+        - impact
+      properties:
+        outcomes:
+          type: array
+          items:
+            type: string
+          description: Medium-term changes in beneficiaries
+        impact:
+          type: array
+          items:
+            type: string
+          description: Long-term systemic change statements
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string

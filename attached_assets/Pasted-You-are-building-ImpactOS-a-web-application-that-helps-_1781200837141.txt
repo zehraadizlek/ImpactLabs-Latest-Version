@@ -1,0 +1,111 @@
+You are building "ImpactOS" — a web application that helps organizations (NGOs, startups, corporates) create SDG-aligned Impact Reports through a guided, AI-powered wizard.
+
+## Core Problem
+Traditional reports go activities → outputs → outcomes. Impact Reports work in REVERSE: you start from the impact/change you want to create, then trace back to what activities achieve it. Most organizations get confused and produce generic, compliance-box-ticking reports. ImpactOS guides them through the correct logic with education at every step.
+
+## Tech Stack
+- Frontend: React (single page app, no router needed for MVP)
+- Styling: Tailwind CSS
+- AI: Anthropic Claude API (claude-sonnet-4-20250514) via fetch to https://api.anthropic.com/v1/messages
+- Storage: localStorage for session persistence
+- PDF export: browser print CSS or html2pdf.js from CDN
+- Analytics: Novus.ai script tag (placeholder in index.html, to be filled)
+
+## App Structure — 5-Step Wizard
+
+### Step 0: Welcome Screen
+- Headline: "Build your Impact Report the right way"
+- Subtext explaining the reverse logic (impact-first)
+- CTA: "Start your report"
+- Field: Organization name, sector (dropdown: NGO / Startup / Corporate / Public Sector)
+
+### Step 1: Choose Your SDGs (What is your impact focus?)
+- Show all 17 SDG tiles with icons and names
+- User selects 1-3 SDGs (highlight selected with teal border)
+- Below each selected SDG, show a text field: "What specific change do you want to create in this area?"
+- Helper text: "Think about the world AFTER your work. What is different?"
+
+### Step 2: Identify Stakeholders (Who is affected?)
+- Primary Beneficiary: who directly benefits? (large card)
+- Secondary Stakeholders: up to 4 more (smaller cards)
+- Each card has: Name field + "How are they affected?" text field
+- Helper: "Your primary beneficiary is NOT necessarily your customer."
+
+### Step 3: Theory of Change (How do you create change?)
+- 4-column table: Activities | Outputs | Outcomes | Impact
+- User fills in Activities (what you do) and Outputs (direct results)
+- AI BUTTON: "Generate Outcomes & Impact with AI" 
+  → Call Claude API with the SDGs, stakeholders, activities, outputs
+  → Claude returns suggested Outcomes and Impact statements
+  → User can edit the AI suggestions
+- Show a visual flow diagram as they fill it in
+
+### Step 4: Data & Measurement
+- For each Output/Outcome from Step 3, ask:
+  - Indicator: "How will you measure this?"
+  - Baseline: "What is the current situation?"
+  - Target: "What do you aim to achieve?"
+  - Frequency: "How often will you measure?" (Monthly/Quarterly/Annually)
+
+### Step 5: Preview & Export
+- Generate a beautiful, styled report preview
+- Sections: Cover → Our SDGs → Stakeholders → Theory of Change → Data & Measurement → Targets
+- Color scheme: teal (#0d7a6b) primary, off-white (#f5f5f0) backgrounds
+- Export button: triggers browser print dialog with print-optimized CSS
+- Share button: copies a shareable link (localStorage-based, encode state in URL hash)
+
+## AI Integration (Claude API)
+Use this exact fetch pattern:
+```javascript
+const response = await fetch("https://api.anthropic.com/v1/messages", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1000,
+    messages: [{
+      role: "user",
+      content: `You are an impact measurement expert. Given this organization's work:
+- SDGs focused on: ${sdgs}
+- Primary beneficiary: ${beneficiary}
+- Activities: ${activities}
+- Outputs: ${outputs}
+
+Generate realistic Outcomes (medium-term changes in beneficiaries) and Impact (long-term systemic change). 
+Return ONLY a JSON object with this structure, no markdown:
+{
+  "outcomes": ["outcome1", "outcome2", "outcome3"],
+  "impact": ["impact1", "impact2"]
+}`
+    }]
+  })
+});
+```
+
+## Design Principles
+- Teal (#0d7a6b) as primary color, matching impact report aesthetic
+- Each wizard step has: Step indicator (1 of 5), Title, Helper text explaining WHY this step matters in impact logic
+- Progress bar at top
+- "Back" and "Continue" buttons, sticky at bottom
+- Mobile responsive
+- Smooth transitions between steps
+
+## Key UX Details
+- Every field has a tooltip/helper explaining the impact methodology concept
+- The Theory of Change step shows a live visual as user types
+- AI generation has a loading state with "Analyzing your impact logic..."
+- Report preview looks like a real professional document, not a web form
+
+## Novus.ai Integration
+In index.html <head>, add this placeholder comment:
+<!-- NOVUS_SCRIPT_PLACEHOLDER -->
+This will be replaced with the actual Novus script before launch.
+
+## File Structure
+- index.html (single entry point)
+- App.jsx (main React component with all steps)
+- components/StepX.jsx for each step
+- utils/aiHelper.js for Claude API calls
+- styles/report.css for print-optimized report CSS
+
+Start by building the complete wizard flow with all 5 steps functional, then add the AI integration, then polish the report export. Make it feel like a real product someone would pay for.

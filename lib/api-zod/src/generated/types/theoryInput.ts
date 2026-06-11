@@ -5,9 +5,6 @@
  * ImpactOS API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
 
 export interface TheoryInput {
   /** List of SDG names the organization focuses on */
@@ -19,15 +16,3 @@ export interface TheoryInput {
   /** Direct results of the activities */
   outputs: string[];
 }
-
-export interface TheoryResult {
-  /** Medium-term changes in beneficiaries */
-  outcomes: string[];
-  /** Long-term systemic change statements */
-  impact: string[];
-}
-
-export interface ErrorResponse {
-  error: string;
-}
-

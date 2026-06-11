@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppState, loadState, saveState } from "@/lib/state";
 import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
 
 import Step0Welcome from "./components/steps/Step0Welcome";
 import Step1Sdgs from "./components/steps/Step1Sdgs";
@@ -28,6 +29,7 @@ export default function App() {
 
   const nextStep = () => updateState({ step: Math.min(5, state.step + 1) });
   const prevStep = () => updateState({ step: Math.max(0, state.step - 1) });
+  const goHome = () => updateState({ step: 0 });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -39,7 +41,10 @@ export default function App() {
       {state.step > 0 && state.step < 5 && (
         <div className="sticky top-0 z-10 bg-background/80 backdrop-blur border-b border-border/20 p-4">
           <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-            <div className="font-bold text-lg tracking-tight">Impact<span className="text-primary">Labs</span></div>
+            <button onClick={goHome} className="font-bold text-lg tracking-tight flex items-center gap-2 hover:opacity-80 transition-opacity" data-testid="btn-home" aria-label="Return to home">
+              <Home className="w-4 h-4 text-primary" />
+              Impact<span className="text-primary">Labs</span>
+            </button>
             <div className="flex-1 max-w-md h-2 bg-[#1a2040] rounded-full overflow-hidden">
               <div 
                 className="h-full btn-gradient transition-all duration-300"
@@ -57,7 +62,7 @@ export default function App() {
         {state.step === 2 && <Step2Stakeholders state={state} updateState={updateState} />}
         {state.step === 3 && <Step3TheoryOfChange state={state} updateState={updateState} />}
         {state.step === 4 && <Step4Measurement state={state} updateState={updateState} />}
-        {state.step === 5 && <Step5Preview state={state} updateState={updateState} />}
+        {state.step === 5 && <Step5Preview state={state} updateState={updateState} goHome={goHome} />}
       </main>
 
       {state.step < 5 && (

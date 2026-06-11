@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { AppState, generateShareUrl } from "@/lib/state";
 import { useToast } from "@/hooks/use-toast";
-import { Printer, Share2, FileText, Download, Sparkles, Loader2 } from "lucide-react";
+import { Printer, Share2, FileText, Download, Sparkles, Loader2, Home } from "lucide-react";
 import { useGenerateReport } from "@workspace/api-client-react";
 import { exportPDF, exportPPTX, exportDOCX } from "@/lib/exports";
 import ReportViewer from "../report/ReportViewer";
 
-export default function Step5Preview({ state, updateState }: { state: AppState, updateState: (u: Partial<AppState>) => void }) {
+export default function Step5Preview({ state, updateState, goHome }: { state: AppState, updateState: (u: Partial<AppState>) => void, goHome: () => void }) {
   const { toast } = useToast();
   const generate = useGenerateReport();
   const [isExporting, setIsExporting] = useState(false);
@@ -85,6 +85,9 @@ export default function Step5Preview({ state, updateState }: { state: AppState, 
         </div>
         
         <div className="flex flex-wrap gap-2 print:hidden">
+          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={goHome} data-testid="btn-home">
+            <Home className="w-4 h-4 mr-2" /> Home
+          </button>
           <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-2" /> Share Link
           </button>

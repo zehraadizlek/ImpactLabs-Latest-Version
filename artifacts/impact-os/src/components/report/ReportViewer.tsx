@@ -16,7 +16,7 @@ export default function ReportViewer({ state, isGenerated }: { state: AppState, 
   const COLORS = ['#3b82f6', '#0ea5e9', '#06b6d4', '#0284c7', '#2563eb'];
 
   return (
-    <div className="space-y-16 mt-8 max-w-5xl mx-auto text-left relative z-10 animate-in fade-in duration-1000">
+    <div data-report-root className="space-y-16 mt-8 max-w-5xl mx-auto text-left relative z-10 animate-in fade-in duration-1000">
       
       {/* 1. Cover */}
       <div className={`${sectionClass} min-h-[70vh] flex flex-col justify-center text-center print-page-break`}>

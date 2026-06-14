@@ -249,3 +249,49 @@
     break-inside: avoid;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Export mode: deterministic, fixed rendering for PDF/PPTX capture   */
+/* ------------------------------------------------------------------ */
+.export-mode,
+.export-mode * {
+  animation: none !important;
+  transition: none !important;
+}
+/* NOTE: transforms are intentionally NOT disabled — recharts positions chart
+   internals via transforms, and the report uses translate for centering (e.g.
+   theory-of-change arrows). html2canvas-pro renders static transforms correctly;
+   animation/transition resets above already freeze any animated transforms. */
+.export-mode * {
+  box-shadow: none !important;
+}
+.export-mode .sticky,
+.export-mode .fixed {
+  position: static !important;
+}
+.export-mode .report-section {
+  min-height: 0 !important;
+}
+.export-mode .animate-in {
+  opacity: 1 !important;
+}
+/* bg-clip:text renders as invisible text in html2canvas — force a solid fill. */
+.export-mode .text-gradient {
+  background: none !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  color: #93c5fd !important;
+}
+
+.export-page {
+  width: 794px;
+  min-height: 1123px;
+  overflow: hidden;
+  position: relative;
+  page-break-after: always;
+}
+.export-slide {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+}

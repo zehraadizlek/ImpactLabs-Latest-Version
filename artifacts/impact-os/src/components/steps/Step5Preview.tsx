@@ -60,9 +60,10 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
     });
   };
 
-  const handleExport = async (type: 'pptx' | 'docx') => {
+  const handleExport = async (type: 'pdf' | 'pptx' | 'docx') => {
     setIsExporting(true);
     try {
+      if (type === 'pdf') await exportPDF(state);
       if (type === 'pptx') await exportPPTX(state);
       if (type === 'docx') await exportDOCX(state);
       toast({
@@ -95,14 +96,14 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
           <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-2" /> Share Link
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting} data-testid="btn-export-docx">
+          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-docx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />} DOCX
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting} data-testid="btn-export-pptx">
+          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-pptx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />} PPTX
           </button>
-          <button className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20" onClick={exportPDF} data-testid="btn-export-pdf">
-            <Printer className="w-4 h-4 mr-2" /> Print / PDF
+          <button className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20 disabled:opacity-50" onClick={() => handleExport('pdf')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-pdf">
+            {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Printer className="w-4 h-4 mr-2" />} PDF
           </button>
         </div>
       </div>

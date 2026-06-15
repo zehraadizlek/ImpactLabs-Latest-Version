@@ -251,6 +251,7 @@ const STORAGE_KEY = "impactos-state-v2";
 const isArr = (v: unknown): v is unknown[] => Array.isArray(v);
 const isObj = (v: unknown): v is Record<string, unknown> =>
   typeof v === "object" && v !== null && !Array.isArray(v);
+const isNum = (v: unknown): v is number => typeof v === "number" && !Number.isNaN(v);
 
 // A persisted or shared report can be partial (old shape, truncated, or
 // hand-crafted). ReportViewer maps over these nested arrays unconditionally, so
@@ -263,17 +264,34 @@ export function isValidReport(r: unknown): r is GeneratedReport {
   if (!isArr(r.glanceKpis)) return false;
   if (!isArr(r.achievementsTimeline)) return false;
   if (!isObj(r.overview)) return false;
-  if (!isArr(r.programs)) return false;
+  // ReportViewer and the DOCX export dereference each program's nested arrays
+  // unconditionally, so a program element missing them would still crash.
+  if (
+    !isArr(r.programs) ||
+    !r.programs.every(
+      (p) =>
+        isObj(p) &&
+        isArr(p.activities) &&
+        isArr(p.outputs) &&
+        isArr(p.outcomes) &&
+        isArr(p.metrics),
+    )
+  )
+    return false;
   const bi = r.beneficiaryImpact;
   if (!isObj(bi) || !isArr(bi.profiles) || !isArr(bi.testimonials)) return false;
   const d = r.dashboard;
+  // progressBars current/target and geographic value are used with arithmetic
+  // and toLocaleString(), so they must be real numbers, not just present.
   if (
     !isObj(d) ||
     !isArr(d.metrics) ||
     !isArr(d.growthSeries) ||
     !isArr(d.distribution) ||
     !isArr(d.progressBars) ||
-    !isArr(d.geographic)
+    !isArr(d.geographic) ||
+    !d.progressBars.every((pb) => isObj(pb) && isNum(pb.current) && isNum(pb.target)) ||
+    !d.geographic.every((g) => isObj(g) && isNum(g.value))
   )
     return false;
   const toc = r.theoryOfChange;

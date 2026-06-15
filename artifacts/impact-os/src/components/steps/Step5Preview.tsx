@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppState, generateShareUrl } from "@/lib/state";
+import { AppState, generateShareUrl, isValidReport } from "@/lib/state";
 import { buildFocusStrings } from "@/lib/focus";
 import { useToast } from "@/hooks/use-toast";
 import { Printer, Share2, FileText, Download, Sparkles, Loader2, Home } from "lucide-react";
@@ -11,6 +11,7 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
   const { toast } = useToast();
   const generate = useGenerateReport();
   const [isExporting, setIsExporting] = useState(false);
+  const hasReport = isValidReport(state.generatedReport);
 
   const handleShare = () => {
     const url = generateShareUrl(state);
@@ -97,19 +98,19 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
           <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-2" /> Share Link
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-docx">
+          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting || !hasReport} data-testid="btn-export-docx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />} DOCX
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-pptx">
+          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting || !hasReport} data-testid="btn-export-pptx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />} PPTX
           </button>
-          <button className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20 disabled:opacity-50" onClick={() => handleExport('pdf')} disabled={isExporting || !state.generatedReport} data-testid="btn-export-pdf">
+          <button className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20 disabled:opacity-50" onClick={() => handleExport('pdf')} disabled={isExporting || !hasReport} data-testid="btn-export-pdf">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Printer className="w-4 h-4 mr-2" />} PDF
           </button>
         </div>
       </div>
 
-      {!state.generatedReport && (
+      {!hasReport && (
         <div className="glass-card border-primary/50 p-8 md:p-12 rounded-2xl text-center space-y-6 shadow-[0_0_30px_rgba(59,130,246,0.15)] relative overflow-hidden print:hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
           
@@ -138,7 +139,7 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
       )}
 
       {/* The Report Viewer */}
-      <ReportViewer state={state} isGenerated={!!state.generatedReport} />
+      <ReportViewer state={state} isGenerated={hasReport} />
       
     </div>
   );

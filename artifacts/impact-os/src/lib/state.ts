@@ -248,18 +248,93 @@ export const defaultState: AppState = {
 // report would crash the new ReportViewer, so the key change forces a clean slate.
 const STORAGE_KEY = "impactos-state-v2";
 
+const isArr = (v: unknown): v is unknown[] => Array.isArray(v);
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+
+// A persisted or shared report can be partial (old shape, truncated, or
+// hand-crafted). ReportViewer maps over these nested arrays unconditionally, so
+// rendering an incomplete report crashes the whole app. Validate the full shape
+// before we ever hand it to the viewer; anything that fails is treated as "no
+// report" and the user is shown the generate UI instead.
+export function isValidReport(r: unknown): r is GeneratedReport {
+  if (!isObj(r)) return false;
+  if (!isObj(r.heroMetric)) return false;
+  if (!isArr(r.glanceKpis)) return false;
+  if (!isArr(r.achievementsTimeline)) return false;
+  if (!isObj(r.overview)) return false;
+  if (!isArr(r.programs)) return false;
+  const bi = r.beneficiaryImpact;
+  if (!isObj(bi) || !isArr(bi.profiles) || !isArr(bi.testimonials)) return false;
+  const d = r.dashboard;
+  if (
+    !isObj(d) ||
+    !isArr(d.metrics) ||
+    !isArr(d.growthSeries) ||
+    !isArr(d.distribution) ||
+    !isArr(d.progressBars) ||
+    !isArr(d.geographic)
+  )
+    return false;
+  const toc = r.theoryOfChange;
+  if (
+    !isObj(toc) ||
+    !isArr(toc.inputs) ||
+    !isArr(toc.activities) ||
+    !isArr(toc.outputs) ||
+    !isArr(toc.outcomes) ||
+    !isArr(toc.longTermImpact)
+  )
+    return false;
+  if (!isArr(r.measurementFramework)) return false;
+  const cl = r.challengesLearnings;
+  if (!isObj(cl) || !isArr(cl.challenges) || !isArr(cl.risks) || !isArr(cl.futureImprovements))
+    return false;
+  const fc = r.futureCommitments;
+  if (
+    !isObj(fc) ||
+    !isArr(fc.nextYearGoals) ||
+    !isArr(fc.roadmap) ||
+    !isArr(fc.expansionPlans)
+  )
+    return false;
+  const ap = r.appendix;
+  if (!isObj(ap) || !isArr(ap.dataSources)) return false;
+  return true;
+}
+
+// Drop any persisted/shared report that doesn't match the current shape so it
+// can never reach ReportViewer. Wizard inputs are preserved.
+function sanitizeState(state: AppState): AppState {
+  if (state.generatedReport && !isValidReport(state.generatedReport)) {
+    return { ...state, generatedReport: null };
+  }
+  return state;
+}
+
+// Mirror of generateShareUrl's btoa(unescape(encodeURIComponent(...))) so that
+// non-ASCII content (e.g. Turkish characters) round-trips without mojibake.
+function decodeHash(hash: string): unknown {
+  try {
+    return JSON.parse(decodeURIComponent(escape(atob(hash))));
+  } catch {
+    // Fall back to a plain decode for any legacy/ASCII-only hashes.
+    return JSON.parse(atob(hash));
+  }
+}
+
 export function loadState(): AppState {
   try {
     if (window.location.hash) {
       const hash = window.location.hash.slice(1);
-      const decoded = JSON.parse(atob(hash));
+      const decoded = decodeHash(hash);
       if (decoded && typeof decoded === "object") {
-        return { ...defaultState, ...decoded };
+        return sanitizeState({ ...defaultState, ...decoded });
       }
     }
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      return { ...defaultState, ...JSON.parse(saved) };
+      return sanitizeState({ ...defaultState, ...JSON.parse(saved) });
     }
   } catch (e) {
     console.error("Failed to load state", e);

@@ -1,10 +1,10 @@
 import React from "react";
-import { AppState, GeneratedReport } from "@/lib/state";
+import { AppState, GeneratedReport, isValidReport } from "@/lib/state";
 import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Target, TrendingUp, Users, FileText, Anchor, Globe, MoveRight, ChevronRight, Activity, Zap, Milestone } from "lucide-react";
 
 export default function ReportViewer({ state, isGenerated }: { state: AppState, isGenerated: boolean }) {
-  if (!isGenerated || !state.generatedReport) return null;
+  if (!isGenerated || !isValidReport(state.generatedReport)) return null;
   const report: GeneratedReport = state.generatedReport;
 
   // Layout utilities

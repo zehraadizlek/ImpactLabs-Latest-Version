@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AppState, generateShareUrl } from "@/lib/state";
+import { buildFocusStrings } from "@/lib/focus";
 import { useToast } from "@/hooks/use-toast";
 import { Printer, Share2, FileText, Download, Sparkles, Loader2, Home } from "lucide-react";
 import { useGenerateReport } from "@workspace/api-client-react";
@@ -31,7 +32,7 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
         reportingPeriod: state.reportingPeriod,
         website: state.website,
         sdgs: state.selectedSdgs.map(String),
-        sdgChanges: Object.entries(state.sdgChanges).map(([sdg, change]) => `SDG ${sdg}: ${change}`),
+        sdgChanges: buildFocusStrings(state),
         beneficiaryGroups: state.beneficiaryGroups.filter(Boolean),
         primaryBeneficiary: state.primaryBeneficiary.name ? `${state.primaryBeneficiary.name}: ${state.primaryBeneficiary.affected}` : undefined,
         secondaryStakeholders: state.secondaryStakeholders.filter(s => s.name).map(s => `${s.name}: ${s.affected}`),

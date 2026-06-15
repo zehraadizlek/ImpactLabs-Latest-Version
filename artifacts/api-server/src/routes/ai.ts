@@ -50,7 +50,7 @@ router.post("/ai/generate-theory", async (req, res) => {
   const { sdgs, beneficiary, activities, outputs } = parsed.data;
 
   const prompt = `You are an impact measurement expert. Given this organization's work:
-- SDGs focused on: ${sdgs.join(", ")}
+- Focus areas (SDGs or commercial impact dimensions): ${sdgs.join(", ")}
 - Primary beneficiary: ${beneficiary}
 - Activities: ${activities.join("; ")}
 - Outputs: ${outputs.join("; ")}
@@ -173,6 +173,7 @@ router.post("/ai/generate-report", async (req, res) => {
 
 FOCUS & BENEFICIARIES
 - SDGs: ${list(d.sdgs)}
+- Focus areas & desired changes: ${list(d.sdgChanges)}
 - Beneficiary groups: ${list(d.beneficiaryGroups)}
 - Primary beneficiary: ${d.primaryBeneficiary || "Not specified"}
 - Secondary stakeholders: ${list(d.secondaryStakeholders)}

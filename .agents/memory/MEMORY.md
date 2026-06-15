@@ -1,2 +1,3 @@
 - [Redesign drops providers](redesign-provider-wrappers.md) — App.tsx rewrites can silently drop QueryClientProvider/TooltipProvider; verify the tree is still wrapped.
 - [Subagent early returns](subagent-early-return.md) — big delegated builds can bail with no edits; relaunch with a hard "complete it, don't return early" mandate + per-file checklist + typecheck finish-criterion.
+- [ImpactLabs wizard field plumbing](impactos-wizard-field-plumbing.md) — a new wizard input only affects the AI report if Step5/Step3 send it AND ai.ts prompt context references it; a field can be in the contract yet ignored server-side.

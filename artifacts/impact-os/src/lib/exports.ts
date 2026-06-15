@@ -78,6 +78,8 @@ interface CaptureResult {
   heightCss: number;
   /** Height clamped to the bottom-most content block (drops trailing whitespace). */
   contentHeightCss: number;
+  /** Bottom of the deepest real content (pre-pad); pages starting below it are blank. */
+  contentBottom: number;
   scale: number;
   blocks: Block[];
 }
@@ -170,7 +172,7 @@ async function captureReport(): Promise<CaptureResult> {
       windowHeight: window.innerHeight,
     });
 
-    return { canvas, widthCss, heightCss, contentHeightCss, scale, blocks };
+    return { canvas, widthCss, heightCss, contentHeightCss, contentBottom, scale, blocks };
   } finally {
     document.body.removeChild(holder);
   }
@@ -230,7 +232,7 @@ function sliceToDataURL(
 /* ------------------------------------------------------------------ */
 
 export async function exportPDF(state: AppState): Promise<void> {
-  const { canvas, widthCss, contentHeightCss, scale, blocks } = await captureReport();
+  const { canvas, widthCss, contentHeightCss, contentBottom, scale, blocks } = await captureReport();
   const { jsPDF } = await import("jspdf");
   const pdf = new jsPDF({ unit: "px", format: "a4", orientation: "portrait", compress: true });
   const pageW = pdf.internal.pageSize.getWidth();
@@ -238,7 +240,10 @@ export async function exportPDF(state: AppState): Promise<void> {
 
   // Page slices share the A4 aspect ratio so each slice fills a page without stretching.
   const pageHeightCss = widthCss * (pageH / pageW);
-  const pages = paginate(contentHeightCss, pageHeightCss, blocks);
+  // Drop any trailing page that begins below the real content: the breathing-room pad on
+  // contentHeightCss can otherwise spill a sliver onto an extra, near-blank final page.
+  const pages = paginate(contentHeightCss, pageHeightCss, blocks).filter(([t]) => t < contentBottom - 2);
+  if (!pages.length) pages.push([0, Math.min(contentHeightCss, pageHeightCss)]);
 
   pages.forEach(([t, b], i) => {
     const dataUrl = sliceToDataURL(canvas, t, b, scale);
@@ -255,7 +260,7 @@ export async function exportPDF(state: AppState): Promise<void> {
 /* ------------------------------------------------------------------ */
 
 export async function exportPPTX(state: AppState): Promise<void> {
-  const { canvas, widthCss, contentHeightCss, scale, blocks } = await captureReport();
+  const { canvas, widthCss, contentHeightCss, contentBottom, scale, blocks } = await captureReport();
 
   const PptxGenJS = (await import("pptxgenjs")).default;
   const pptx = new PptxGenJS();
@@ -270,7 +275,9 @@ export async function exportPPTX(state: AppState): Promise<void> {
 
   // 16:9 slices keep aspect ratio so images are never stretched on the slide.
   const slideHeightCss = widthCss * (SLIDE_H / SLIDE_W);
-  const pages = paginate(contentHeightCss, slideHeightCss, blocks);
+  // Drop any trailing slice that begins below the real content (see exportPDF note).
+  const pages = paginate(contentHeightCss, slideHeightCss, blocks).filter(([t]) => t < contentBottom - 2);
+  if (!pages.length) pages.push([0, Math.min(contentHeightCss, slideHeightCss)]);
 
   pages.forEach(([t, b]) => {
     const slide = pptx.addSlide();

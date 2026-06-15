@@ -1,5 +1,6 @@
 import React from "react";
 import { AppState } from "@/lib/state";
+import { buildFocusStrings } from "@/lib/focus";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateTheoryOfChange } from "@workspace/api-client-react";
@@ -9,9 +10,10 @@ export default function Step3TheoryOfChange({ state, updateState }: { state: App
   const generate = useGenerateTheoryOfChange();
 
   const handleGenerate = () => {
+    const focus = buildFocusStrings(state);
     generate.mutate({
       data: {
-        sdgs: state.selectedSdgs.map(String),
+        sdgs: focus.length ? focus : state.selectedSdgs.map(String),
         beneficiary: state.primaryBeneficiary.name,
         activities: state.activities.filter(Boolean),
         outputs: state.outputs.filter(Boolean)

@@ -1,0 +1,41 @@
+Fix the following issues in the Impact OS app:
+1. PDF & PPTX export content overflow fix:
+
+In src/App.tsx, the main wrapper div has overflow-hidden — remove it. Change:
+className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-hidden dark"
+to:
+className="min-h-[100dvh] bg-background text-foreground flex flex-col relative dark"
+In src/index.css, rewrite the @media print block so that html, body, #root, main, .flex, .flex-col all have overflow: visible !important; height: auto !important; min-height: 0 !important;. Also add .sticky, .fixed { display: none !important; } and .bg-blob-1, .bg-blob-2 { display: none !important; } inside the print block. Add word-break: break-word !important; overflow-wrap: break-word !important; to all elements in print, and table-layout: fixed !important to tables.
+
+2. Add commercial sector support to Step 1 (Impact Focus Areas):
+
+In src/components/steps/Step1Sdgs.tsx, add a toggle at the top between two modes: "UN SDGs" and "Commercial Impact". When state.orgType is "Startup" or "Company", default to Commercial Impact mode.
+In Commercial Impact mode, show a grid of selectable cards (up to 5) with these options:
+
+ESG / Sustainability — Environmental, Social & Governance reporting
+Diversity, Equity & Inclusion — Workplace equity and belonging initiatives
+Customer Impact — Lives improved through products or services
+Environmental Footprint — Carbon reduction, waste, resource efficiency
+Supply Chain Ethics — Fair trade, responsible sourcing, labor standards
+Community Investment — Local economic development, philanthropy, volunteering
+Employee Wellbeing — Health, safety, mental wellness programs
+Innovation for Good — R&D, products or services that solve societal problems
+
+Store selected commercial areas in state.sdgChanges["__commercial_areas__"] as a JSON string array. For each selected area, show a textarea below (stored in state.sdgChanges["comm_AREAID"]) asking what success looks like for that area. Keep the existing SDG mode fully working as-is.
+
+3. Improve Measurement Framework (Step 4):
+
+In src/components/steps/Step4Measurement.tsx:
+Add a small FieldTip component — a ? icon that shows a tooltip on hover with explanatory text for each field:
+
+Indicator: "A specific, measurable metric showing whether you're achieving this. Examples: # of workshops held, % of users reporting improved skills, tonnes of CO₂ avoided"
+Baseline: "Where you are RIGHT NOW before the program — your starting point. Examples: 0 (if brand new), 200 users, 12% satisfaction score"
+Target: "The specific number you aim to reach by period end. Examples: 500 users trained, 40% reduction in waste"
+Frequency: "How often you will collect and review this data"
+
+Add a small explanation card above the framework rows showing what each column means in plain language.
+Add output/outcome type badges next to each item name (blue dot + "Output" label vs teal dot + "Outcome" label, based on whether the item comes from state.outputs or state.outcomes).
+Show a ✓ Defined badge on rows where indicator or target is filled.
+In the Frequency dropdown, add a short description next to each option: Weekly (Fast-moving KPIs), Monthly (Operational metrics), Quarterly (Strategic progress), Bi-Annually (Program milestones), Annually (Long-term impact).
+Add a "X / Y filled" counter next to the AI Suggest button showing how many rows have been defined.
+Do NOT invent or pre-fill any data. The AI Suggest button already handles smart suggestions — just improve the UI/UX around it.

@@ -197,7 +197,9 @@ export interface AppState {
   sector: string; // legacy / kept for back-compat
   // SDGs (optional, lighter context)
   selectedSdgs: number[]; // SDG numbers 1–17
-  sdgChanges: Record<number, string>;
+  // Keyed by SDG number (as string) in SDG mode; also holds commercial-impact keys
+  // ("__commercial_areas__" = JSON string[] of selected area ids, "comm_<id>" = notes).
+  sdgChanges: Record<string, string>;
   // Stakeholders & beneficiaries
   primaryBeneficiary: Stakeholder;
   secondaryStakeholders: Stakeholder[];

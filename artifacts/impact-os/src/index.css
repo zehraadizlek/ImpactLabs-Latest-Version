@@ -191,7 +191,31 @@
 
 @media print {
   @page { margin: 1.5cm; size: A4; }
-  
+
+  /* Let content flow across pages instead of being clipped by app-shell overflow. */
+  html, body, #root, main, .flex, .flex-col {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* App chrome (sticky header, fixed footer, decorative blobs) must not print. */
+  .sticky, .fixed {
+    display: none !important;
+  }
+  .bg-blob-1, .bg-blob-2 {
+    display: none !important;
+  }
+
+  /* Long unbroken strings must wrap so nothing overflows the page width. */
+  * {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  table {
+    table-layout: fixed !important;
+  }
+
   body {
     background: white !important;
     color: #111827 !important;

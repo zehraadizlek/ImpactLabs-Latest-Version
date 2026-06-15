@@ -34,7 +34,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-hidden dark">
+        <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative dark">
       {state.step > 0 && <div className="bg-blob-1" />}
       {state.step > 0 && <div className="bg-blob-2" />}
 

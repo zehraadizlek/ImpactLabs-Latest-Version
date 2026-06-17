@@ -20,6 +20,13 @@ export default function Step0Welcome({ state, updateState }: Props) {
       const reader = new FileReader();
       reader.onloadend = () => {
         updateState({ logo: reader.result as string });
+        if (typeof pendo !== 'undefined') {
+          pendo.track("logo_uploaded", {
+            fileType: file.type,
+            fileSize: file.size,
+            orgName: state.orgName,
+          });
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -177,7 +184,22 @@ export default function Step0Welcome({ state, updateState }: Props) {
           </div>
           <button 
             className="btn-gradient w-full py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => updateState({ step: 1 })}
+            onClick={() => {
+              if (typeof pendo !== 'undefined') {
+                pendo.track("organization_profile_submitted", {
+                  orgName: state.orgName,
+                  orgType: state.orgType,
+                  industry: state.industry,
+                  country: state.country,
+                  reportingPeriod: state.reportingPeriod,
+                  hasWebsite: Boolean(state.website.trim()),
+                  hasLogo: Boolean(state.logo),
+                  hasMission: Boolean(state.mission.trim()),
+                  missionLength: state.mission.trim().length,
+                });
+              }
+              updateState({ step: 1 });
+            }}
             disabled={!state.orgName.trim()}
           >
             Continue to SDGs <ArrowRight className="w-5 h-5" />

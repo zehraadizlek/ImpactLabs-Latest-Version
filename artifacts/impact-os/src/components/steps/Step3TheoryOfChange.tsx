@@ -24,6 +24,16 @@ export default function Step3TheoryOfChange({ state, updateState }: { state: App
           outcomes: result.outcomes || [],
           impact: result.impact || []
         });
+        if (typeof pendo !== 'undefined') {
+          pendo.track("theory_of_change_generated", {
+            sdgCount: state.selectedSdgs.length,
+            beneficiary: state.primaryBeneficiary.name,
+            activityCount: state.activities.filter(Boolean).length,
+            outputCount: state.outputs.filter(Boolean).length,
+            outcomesGenerated: (result.outcomes || []).length,
+            impactGenerated: (result.impact || []).length,
+          });
+        }
       }
     });
   };

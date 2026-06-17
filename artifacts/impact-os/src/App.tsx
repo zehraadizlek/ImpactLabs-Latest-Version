@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppState, loadState, saveState } from "@/lib/state";
+import { readCommercialAreas } from "@/lib/focus";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 
@@ -27,7 +28,63 @@ export default function App() {
     setState(prev => ({ ...prev, ...updates }));
   };
 
-  const nextStep = () => updateState({ step: Math.min(5, state.step + 1) });
+  const nextStep = () => {
+    const newStep = Math.min(5, state.step + 1);
+
+    if (typeof pendo !== 'undefined') {
+      if (state.step === 1) {
+        const commercialAreas = readCommercialAreas(state.sdgChanges);
+        const isCommercial = commercialAreas.length > 0;
+        const focusMode = isCommercial ? "commercial" : "sdg";
+        const selected = isCommercial ? commercialAreas : state.selectedSdgs.map(String);
+        const notesCount = isCommercial
+          ? commercialAreas.filter(id => (state.sdgChanges[`comm_${id}`] || "").trim()).length
+          : state.selectedSdgs.filter(id => (state.sdgChanges[String(id)] || "").trim()).length;
+        pendo.track("impact_focus_selected", {
+          focusMode,
+          selectedCount: selected.length,
+          selectedIds: selected.join(","),
+          notesProvidedCount: notesCount,
+          orgType: state.orgType,
+        });
+      }
+
+      if (state.step === 2) {
+        pendo.track("stakeholders_defined", {
+          hasPrimaryBeneficiary: Boolean(state.primaryBeneficiary.name.trim()),
+          primaryBeneficiary: state.primaryBeneficiary.name,
+          secondaryCount: state.secondaryStakeholders.filter(s => s.name.trim()).length,
+          beneficiaryGroupCount: state.beneficiaryGroups.filter(Boolean).length,
+          orgName: state.orgName,
+        });
+      }
+
+      if (newStep === 5) {
+        const definedCount = Object.values(state.measurements).filter(
+          m => m.indicator?.trim() || m.target?.trim()
+        ).length;
+        pendo.track("wizard_completed", {
+          orgName: state.orgName,
+          orgType: state.orgType,
+          industry: state.industry,
+          country: state.country,
+          sdgCount: state.selectedSdgs.length,
+          hasPrimaryBeneficiary: Boolean(state.primaryBeneficiary.name.trim()),
+          beneficiaryGroupCount: state.beneficiaryGroups.filter(Boolean).length,
+          stakeholderCount: state.secondaryStakeholders.filter(s => s.name.trim()).length,
+          programCount: state.keyPrograms.filter(p => p.name).length,
+          activityCount: state.activities.filter(Boolean).length,
+          outputCount: state.outputs.filter(Boolean).length,
+          outcomeCount: state.outcomes.filter(Boolean).length,
+          impactCount: state.impact.filter(Boolean).length,
+          keyMetricCount: state.keyMetrics.filter(m => m.label).length,
+          measurementCount: definedCount,
+        });
+      }
+    }
+
+    updateState({ step: newStep });
+  };
   const prevStep = () => updateState({ step: Math.max(0, state.step - 1) });
   const goHome = () => updateState({ step: 0 });
 

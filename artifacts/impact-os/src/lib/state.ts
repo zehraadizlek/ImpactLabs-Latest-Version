@@ -341,13 +341,26 @@ function decodeHash(hash: string): unknown {
   }
 }
 
+let _sharedReportTracked = false;
+
 export function loadState(): AppState {
   try {
     if (window.location.hash) {
       const hash = window.location.hash.slice(1);
       const decoded = decodeHash(hash);
       if (decoded && typeof decoded === "object") {
-        return sanitizeState({ ...defaultState, ...decoded });
+        const loadedState = sanitizeState({ ...defaultState, ...decoded });
+        if (!_sharedReportTracked && typeof pendo !== 'undefined') {
+          _sharedReportTracked = true;
+          pendo.track("shared_report_loaded", {
+            orgName: loadedState.orgName,
+            orgType: loadedState.orgType,
+            step: loadedState.step,
+            hasGeneratedReport: Boolean(loadedState.generatedReport),
+            sdgCount: loadedState.selectedSdgs.length,
+          });
+        }
+        return loadedState;
       }
     }
     const saved = localStorage.getItem(STORAGE_KEY);

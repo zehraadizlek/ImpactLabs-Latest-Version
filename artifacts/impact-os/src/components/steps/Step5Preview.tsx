@@ -16,6 +16,14 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
   const handleShare = () => {
     const url = generateShareUrl(state);
     navigator.clipboard.writeText(url);
+    if (typeof pendo !== 'undefined') {
+      pendo.track("share_link_created", {
+        orgName: state.orgName,
+        orgType: state.orgType,
+        hasGeneratedReport: Boolean(state.generatedReport),
+        currentStep: state.step,
+      });
+    }
     toast({
       title: "Link Copied!",
       description: "A shareable link to this report has been copied to your clipboard.",
@@ -47,6 +55,23 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
     }, {
       onSuccess: (result) => {
         updateState({ generatedReport: result });
+        if (typeof pendo !== 'undefined') {
+          pendo.track("report_generated", {
+            orgName: state.orgName,
+            orgType: state.orgType,
+            industry: state.industry,
+            country: state.country,
+            sdgCount: state.selectedSdgs.length,
+            programCount: state.keyPrograms.filter(p => p.name).length,
+            keyMetricCount: state.keyMetrics.filter(m => m.label).length,
+            activityCount: state.activities.filter(Boolean).length,
+            outputCount: state.outputs.filter(Boolean).length,
+            outcomeCount: state.outcomes.filter(Boolean).length,
+            hasBeneficiaryGroups: state.beneficiaryGroups.filter(Boolean).length > 0,
+            hasStakeholders: state.secondaryStakeholders.filter(s => s.name).length > 0,
+            reportingPeriod: state.reportingPeriod,
+          });
+        }
         toast({
           title: "Report Generated",
           description: "Your impact narrative has been completely generated.",
@@ -68,6 +93,14 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
       if (type === 'pdf') await exportPDF(state);
       if (type === 'pptx') await exportPPTX(state);
       if (type === 'docx') await exportDOCX(state);
+      if (typeof pendo !== 'undefined') {
+        pendo.track("report_exported", {
+          exportFormat: type.toUpperCase(),
+          orgName: state.orgName,
+          orgType: state.orgType,
+          reportingPeriod: state.reportingPeriod,
+        });
+      }
       toast({
         title: "Export Complete",
         description: `Your ${type.toUpperCase()} file has been downloaded.`,

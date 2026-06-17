@@ -74,6 +74,15 @@ export default function Step4Measurement({ state, updateState }: { state: AppSta
           }
         });
         updateState({ measurements: newMeas });
+        if (typeof pendo !== 'undefined') {
+          pendo.track("kpis_suggested", {
+            sector: state.industry || state.sector || "General",
+            itemCount: items.length,
+            kpisReturnedCount: result.kpis.length,
+            orgType: state.orgType,
+            industry: state.industry,
+          });
+        }
         toast({
           title: "KPIs Suggested",
           description: "AI has filled in suggested measurement metrics for your outputs and outcomes.",

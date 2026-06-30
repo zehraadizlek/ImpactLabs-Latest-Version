@@ -98,7 +98,7 @@ export default function App() {
       {state.step > 0 && state.step < 5 && (
         <div className="sticky top-0 z-10 bg-background/80 backdrop-blur border-b border-border/20 p-4">
           <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-            <button onClick={goHome} className="font-bold text-lg tracking-tight flex items-center gap-2 hover:opacity-80 transition-opacity" data-testid="btn-home" aria-label="Return to home">
+            <button onClick={goHome} id="btn-home-header" className="font-bold text-lg tracking-tight flex items-center gap-2 hover:opacity-80 transition-opacity" data-testid="btn-home" aria-label="Return to home">
               <Home className="w-4 h-4 text-primary" />
               Impact<span className="text-primary">Labs</span>
             </button>
@@ -126,12 +126,12 @@ export default function App() {
         <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur border-t border-border/20 p-4 z-20">
           <div className="max-w-4xl mx-auto flex justify-between">
             {state.step > 0 ? (
-              <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-medium" onClick={prevStep} data-testid="btn-back">
+              <button id="btn-back" className="btn-ghost px-4 py-2 rounded-lg text-sm font-medium" onClick={prevStep} data-testid="btn-back">
                 Back
               </button>
             ) : <div />}
             {state.step > 0 && (
-              <button className="btn-gradient px-6 py-2 rounded-lg text-sm font-medium shadow-lg" onClick={nextStep} data-testid="btn-continue">
+              <button id="btn-continue" className="btn-gradient px-6 py-2 rounded-lg text-sm font-medium shadow-lg" onClick={nextStep} data-testid="btn-continue">
                 Continue
               </button>
             )}

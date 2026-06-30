@@ -125,19 +125,19 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
         </div>
         
         <div className="flex flex-wrap gap-2 print:hidden">
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={goHome} data-testid="btn-home">
+          <button id="btn-home-preview" className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={goHome} data-testid="btn-home">
             <Home className="w-4 h-4 mr-2" /> Home
           </button>
           <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-2" /> Share Link
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting || !hasReport} data-testid="btn-export-docx">
+          <button id="btn-export-docx" className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('docx')} disabled={isExporting || !hasReport} data-testid="btn-export-docx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />} DOCX
           </button>
-          <button className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting || !hasReport} data-testid="btn-export-pptx">
+          <button id="btn-export-pptx" className="btn-ghost px-4 py-2 rounded-lg text-sm font-semibold flex items-center" onClick={() => handleExport('pptx')} disabled={isExporting || !hasReport} data-testid="btn-export-pptx">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />} PPTX
           </button>
-          <button className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20 disabled:opacity-50" onClick={() => handleExport('pdf')} disabled={isExporting || !hasReport} data-testid="btn-export-pdf">
+          <button id="btn-export-pdf" className="glass-card hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-semibold flex items-center border-white/20 disabled:opacity-50" onClick={() => handleExport('pdf')} disabled={isExporting || !hasReport} data-testid="btn-export-pdf">
             {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Printer className="w-4 h-4 mr-2" />} PDF
           </button>
         </div>
@@ -157,6 +157,7 @@ export default function Step5Preview({ state, updateState, goHome }: { state: Ap
             <button 
               onClick={handleGenerate}
               disabled={generate.isPending}
+              id="btn-generate"
               data-testid="btn-generate"
               className="btn-gradient w-full md:w-auto px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 mx-auto shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all"
             >
